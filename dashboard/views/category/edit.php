@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Admin Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../../assets/img/wrist-watch.ico" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <?php require_once "views/layouts/components/fonts.html"; ?>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <?php require_once "views/layouts/components/sidebar.html"; ?>
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <?php require_once "views/layouts/components/logoheader.html"; ?>
+          </div>
+          <!-- Navbar Header -->
+          <?php require_once "views/layouts/components/navbar.html"; ?>          
+        </div>  
+
+        <!-- Main Content -->
+        <div class="container">
+          <div class="page-inner">
+            <h1 class="mb-4">Edit Category</h1>
+            <form method="POST" action="index.php?controller=category&action=update">
+              <input type="hidden" name="id" value="<?= htmlspecialchars($category['id']) ?>">
+
+              <div class="mb-3">
+              <label class="form-label">Name:</label>
+              <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($category['name']) ?>" required>
+              </div>
+
+              <div class="mb-3">
+              <label class="form-label">Description:</label>
+              <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description']) ?></textarea>
+              </div>
+
+              <div class="mb-3">
+              <label class="form-label">Image:</label>
+              <input name="image" class="form-control" type="text" value="<?= htmlspecialchars($category['image']) ?>"/>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Update Category</button>
+              <a href="index.php?controller=category&action=index" class="btn btn-danger">Cancel</a>
+            </form>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <?php require_once "views/layouts/components/footer.html"; ?>
+      </div>
+    </div> 
+    
+    <!--   Core JS Files   -->
+    <?php require "views/layouts/components/scripts.html"; ?>
+  </body>
+</html>
