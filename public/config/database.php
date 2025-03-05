@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $dbname = "projectphp";
+    private $dbname = "watch_store";
     private $username = "root";
     private $password = "";
     public $conn;
