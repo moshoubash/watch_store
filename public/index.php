@@ -1,39 +1,29 @@
-<?php
-  // Start session if needed
-  session_start();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/hero.css">
+    <link rel="stylesheet" href="assets/css/featured.css">
+    <link rel="stylesheet" href="assets/css/categories.css">
+    <link rel="stylesheet" href="assets/css/about.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+</head>
+<body>
+    <?php include 'views/components/navbar.html'; ?>
+    <?php include 'views/components/hero.html'; ?>
+    <?php include 'views/components/featured.html'; ?>
+    <?php include 'views/components/collections.html'; ?>
+    <?php include 'views/components/newArrival.html'; ?>
+    <?php include 'views/components/aboutSection.html'; ?>
+    <?php include 'views/components/footer.html'; ?>
 
-  // Include necessary files
-  require_once 'config/database.php';
-  require_once 'controllers/ProductController.php';
-  require_once 'controllers/DashboardController.php';
-  require_once 'controllers/CategoryController.php';
-  require_once 'controllers/DiscountController.php';
-  require_once 'controllers/CustomerController.php';
-  require_once 'controllers/OrderController.php';
-  require_once 'controllers/AdminController.php';
-
-  $controller = isset($_GET['controller']) ? $_GET['controller'] : 'dashboard';
-  $action = isset($_GET['action']) ? $_GET['action'] : 'index';
-
-  $controllers = [
-    'dashboard' => new DashboardController(),
-    'product' => new ProductController(),
-    'category' => new CategoryController(),
-    'discount' => new DiscountController(),
-    'customer' => new CustomerController(),
-    'order' => new OrderController(),
-    'admin' => new AdminController()
-  ];
-
-  if (array_key_exists($controller, $controllers)) {
-      $ctrl = $controllers[$controller];
-
-      if (method_exists($ctrl, $action)) {
-          $ctrl->$action();
-      } else {
-          echo "Action not found!";
-      }
-  } else {
-      echo "Controller not found!";
-  }
-?>
+    <script src="assets/js/categories.js"></script>
+    <script src="assets/js/featured.js"></script>
+    <script src="assets/js/hero.js"></script>
+    <script src="assets/js/navbar.js"></script>
+</body>
+</html>
