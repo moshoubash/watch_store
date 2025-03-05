@@ -1,21 +1,39 @@
 <?php
-session_start();
-require_once 'config/database.php';
-require_once 'models/User.php';
-require_once 'controllers/UserController.php';
+  // Start session if needed
+  session_start();
 
-$database = new Database();
-$db = $database->getConnection();
-$userController = new UserController($db);
-$messages = [];
+  // Include necessary files
+  require_once 'config/database.php';
+  require_once 'controllers/ProductController.php';
+  require_once 'controllers/DashboardController.php';
+  require_once 'controllers/CategoryController.php';
+  require_once 'controllers/DiscountController.php';
+  require_once 'controllers/CustomerController.php';
+  require_once 'controllers/OrderController.php';
+  require_once 'controllers/AdminController.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['submit'])) {
-        $messages = $userController->register($_POST);
-    } elseif (isset($_POST['login'])) {
-        $messages = $userController->login($_POST);
-    }
-}
+  $controller = isset($_GET['controller']) ? $_GET['controller'] : 'dashboard';
+  $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
-include 'views/signup_login.php';
+  $controllers = [
+    'dashboard' => new DashboardController(),
+    'product' => new ProductController(),
+    'category' => new CategoryController(),
+    'discount' => new DiscountController(),
+    'customer' => new CustomerController(),
+    'order' => new OrderController(),
+    'admin' => new AdminController()
+  ];
+
+  if (array_key_exists($controller, $controllers)) {
+      $ctrl = $controllers[$controller];
+
+      if (method_exists($ctrl, $action)) {
+          $ctrl->$action();
+      } else {
+          echo "Action not found!";
+      }
+  } else {
+      echo "Controller not found!";
+  }
 ?>
