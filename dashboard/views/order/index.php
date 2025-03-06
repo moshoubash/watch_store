@@ -50,7 +50,7 @@
               </tr>
             </thead>  
             <tbody>
-              <?php foreach ($orders as $order): ?>
+            <?php foreach ($orders as $order): ?>
               <tr>
                 <td><?= $order['id'] ?></td>
                 <td><?= $order['user_id'] ?></td>
@@ -58,8 +58,6 @@
                 <td><span class="badge bg-dark"><?= $order['status'] ?></span></td>
                 <td><?= $order['created_at'] ?></td>
                 <td>
-                  <a href="index.php?controller=order&action=delete&id=<?= $order['id'] ?>" class="btn btn-sm btn-danger"
-                    onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
                   <a href="index.php?controller=order&action=show&id=<?= $order['id'] ?>" class="btn btn-sm btn-dark"><i class="fas fa-info-circle"></i></a>
                 </td>
               </tr>
@@ -76,5 +74,6 @@
 
   <!--   Core JS Files   -->
   <?php require "views/layouts/components/scripts.html"; ?>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

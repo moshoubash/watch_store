@@ -26,15 +26,15 @@
         }
 
         public function createDiscount($data) {
-            $query = "INSERT INTO " . $this->table . " (name, product_id, `limit`, discount_percentage, start_date, end_date) 
-                    VALUES (:name, :product_id, :limit, :discount_percentage, :start_date, :end_date)";
+            $query = "INSERT INTO " . $this->table . " (name, `limit`, discount_percentage, start_date, end_date) 
+                    VALUES (:name, :limit, :discount_percentage, :start_date, :end_date)";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);
         }
 
         public function updateDiscount($data) {
             $query = "UPDATE " . $this->table . " 
-                    SET name = :name, product_id = :product_id, `limit` = :limit, discount_percentage = :discount_percentage, 
+                    SET name = :name, `limit` = :limit, discount_percentage = :discount_percentage, 
                         start_date = :start_date, end_date = :end_date
                     WHERE id = :id";
             $stmt = $this->conn->prepare($query);

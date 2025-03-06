@@ -55,36 +55,35 @@
                 <td><?= $admin['email'] ?></td>
                 <td><?= $admin['role'] ?></td>
                 <td>
-                  <!-- Button to trigger modal -->
+                  <!-- Button to trigger role change modal -->
                   <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#roleModal<?= $admin['id'] ?>">
                     <i class="fas fa-exchange-alt"></i>
                   </button>
 
-                  <!-- Modal -->
-                  <div class="modal fade" id="roleModal<?= $admin['id'] ?>" tabindex="-1" role="dialog"
-                    aria-labelledby="roleModalLabel<?= $admin['id'] ?>" aria-hidden="true">
+                  <!-- Role Change Modal -->
+                  <div class="modal fade" id="roleModal<?= $admin['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel<?= $admin['id'] ?>" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="roleModalLabel<?= $admin['id'] ?>">Change Role</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                          <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
                           <form action="index.php?controller=admin&action=changeRole" method="POST">
-                            <input type="hidden" name="id" value="<?= $admin['id'] ?>">
-                            <p>Are you sure you want to change the role of
-                              <?= $admin['name'] ?> from
-                              <?= $admin['role'] ?> to
-                              <?= $admin['role'] == 'admin' ? 'superadmin' : 'admin' ?>?
-                            </p>
-                            <input type="hidden" name="newRole"
-                              value="<?= $admin['role'] == 'admin' ? 'superadmin' : 'admin' ?>">
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              <button type="submit" class="btn btn-primary">Confirm</button>
-                            </div>
+                          <input type="hidden" name="id" value="<?= $admin['id'] ?>">
+                          <p>Are you sure you want to change the role of
+                            <?= $admin['name'] ?> from
+                            <?= $admin['role'] ?> to
+                            <?= $admin['role'] == 'admin' ? 'superadmin' : 'admin' ?>?
+                          </p>
+                          <input type="hidden" name="newRole"
+                            value="<?= $admin['role'] == 'admin' ? 'superadmin' : 'admin' ?>">
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                          </div>
                           </form>
                         </div>
                       </div>
@@ -92,7 +91,36 @@
                   </div>
 
                   <a href="index.php?controller=admin&action=edit&id=<?= $admin['id'] ?>" class="btn btn-sm btn-dark"><i class="fas fa-edit"></i></a>
-                  <a href="index.php?controller=admin&action=delete&id=<?= $admin['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+
+                  <!-- Button to trigger delete modal -->
+                  <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                  data-target="#adminModal<?= $admin['id'] ?>">
+                  <i class="fas fa-trash"></i>
+                  </button>
+
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="adminModal<?= $admin['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel<?= $admin['id'] ?>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="adminModalLabel<?= $admin['id'] ?>">Delete Admin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="index.php?controller=admin&action=delete" method="POST">
+                          <input type="hidden" name="id" value="<?= $admin['id'] ?>">
+                          <p>Are you sure you want to delete this admin?</p>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <a href="index.php?controller=admin&action=delete&id=<?= $admin['id'] ?>" class="btn btn-primary">Confirm</a>
+                          </div>
+                        </form>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <?php endforeach; ?>

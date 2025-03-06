@@ -27,7 +27,6 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "name" => $_POST["name"],
-                    "product_id" => $_POST["product_id"],
                     "discount_percentage" => $_POST["discount_percentage"],
                     "start_date" => $_POST["start_date"],
                     "end_date" => $_POST["end_date"],
@@ -52,7 +51,6 @@
                 $data = [
                     "id" => $_POST["id"],
                     "name" => $_POST["name"],
-                    "product_id" => $_POST["product_id"],
                     "discount_percentage" => $_POST["discount_percentage"],
                     "start_date" => $_POST["start_date"],
                     "end_date" => $_POST["end_date"],

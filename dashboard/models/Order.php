@@ -25,13 +25,6 @@
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
-        public function deleteOrder($id) {
-            $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":id", $id);
-            return $stmt->execute();
-        }
-
         public function searchOrders($keyword) {
             $query = "SELECT * FROM " . $this->table . " WHERE user_id LIKE :keyword OR 
                                                                status LIKE :keyword OR

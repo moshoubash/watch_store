@@ -40,19 +40,6 @@
               </div>
 
               <div class="mb-3">
-                  <label class="form-label">Select Product:</label>
-                  <select name="product_id" class="form-control" required>
-                      <option value="">Select Product</option>
-                      <?php
-                          foreach ($products as $product) {
-                              $selected = $product['id'] == $discount['product_id'] ? 'selected' : '';
-                              echo "<option value=\"{$product['id']}\" $selected>{$product['name']}</option>";
-                          }
-                      ?>
-                  </select>
-              </div> 
-
-              <div class="mb-3">
                   <label class="form-label">Usage Limit:</label>
                   <input name="limit" class="form-control" type="number" value="<?= htmlspecialchars($discount['limit']) ?>" />
               </div>

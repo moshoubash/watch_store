@@ -49,6 +49,11 @@
                   </tr>
               </thead>
               <tbody>
+                  <?php if (isset($_GET['error'])) : ?>
+                    <div class="alert alert-danger">
+                      <?php echo $_GET['error']; ?>
+                    </div>
+                  <?php endif; ?>
                   <?php foreach ($customers as $customer): ?>
                   <tr>
                   <td><?= $customer['id'] ?></td>
@@ -58,7 +63,37 @@
                   <td>
                     <a href="index.php?controller=customer&action=edit&id=<?= $customer['id'] ?>" class="btn btn-sm btn-dark"><i class="fas fa-edit"></i></a>
                     <a href="index.php?controller=customer&action=show&id=<?= $customer['id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-info-circle"></i></a>
-                    <a href="index.php?controller=customer&action=delete&id=<?= $customer['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+                    <!-- Button to trigger modal -->
+                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                      data-target="#customerModal<?= $customer['id'] ?>">
+                      <i class="fas fa-trash"></i>
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="customerModal<?= $customer['id'] ?>" tabindex="-1" role="dialog"
+                      aria-labelledby="customerModalLabel<?= $customer['id'] ?>" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="customerModalLabel<?= $customer['id'] ?>">Delete Customer</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="index.php?controller=admin&action=changeRole" method="POST">
+                              <input type="hidden" name="id" value="<?= $customer['id'] ?>">
+                              <p>Are you sure for deleting this customer ?</p>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <a href="index.php?controller=customer&action=delete&id=<?= $customer['id'] ?>"
+                                  class="btn btn-primary">Confirm</a>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   </tr>
                   <?php endforeach; ?>
@@ -74,5 +109,6 @@
     
     <!--   Core JS Files   -->
     <?php require "views/layouts/components/scripts.html"; ?>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
