@@ -86,7 +86,7 @@
                     $allowedTypes = ["jpg", "jpeg", "png", "gif"];
             
                     if (!in_array($fileType, $allowedTypes)) {
-                        header("Location: index.php?controller=product&action=create&error=invalidFileType");
+                        header("Location: index.php?controller=product&action=edit&id=" . $id . "&error=invalidFileType");
                         exit();
                     }
             

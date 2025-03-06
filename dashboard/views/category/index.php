@@ -39,29 +39,32 @@
                 <thead class="table-dark">
                     <tr>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Image</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                  <?php if (isset($_GET['error'])) : ?>
+                    <div class="alert alert-danger">
+                      <?php echo $_GET['error']; ?>
+                    </div>
+                  <?php endif; ?>
                     <?php foreach ($categories as $category): ?>
-                    <?php if (isset($_GET['error'])): ?>
-                      <div class="alert alert-danger">
-                        <?php echo $_GET['error']; ?>
-                      </div>
-                    <?php endif; ?>
-                    <tr>
-                        <td><?= $category['id'] ?></td>
-                        <td><?= $category['name'] ?></td>
-                        <td><?= $category['description'] ?></td>
-                        <td><?= $category['image'] ?></td>
-                        <td>
-                            <a href="index.php?controller=category&action=edit&id=<?= $category['id'] ?>" class="btn btn-sm btn-dark"><i class="fas fa-edit"></i></a>
-                            <a href="index.php?controller=category&action=delete&id=<?= $category['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
+
+                      <tr>
+                          <td><?= $category['id'] ?></td>
+                          <td>
+                            <img src="assets/categoryImages/<?= $category['image'] ?>" alt="<?= $category['name'] ?>" width="100">
+                          </td>
+                          <td><?= $category['name'] ?></td>
+                          <td><?= $category['description'] ?></td>
+                          <td>
+                              <a href="index.php?controller=category&action=edit&id=<?= $category['id'] ?>" class="btn btn-sm btn-dark"><i class="fas fa-edit"></i></a>
+                              <a href="index.php?controller=category&action=delete&id=<?= $category['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+                          </td>
+                      </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

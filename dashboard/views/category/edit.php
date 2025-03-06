@@ -31,22 +31,36 @@
         <div class="container">
           <div class="page-inner">
             <h1 class="mb-4">Edit Category</h1>
-            <form method="POST" action="index.php?controller=category&action=update">
+            <form method="POST" action="index.php?controller=category&action=update" enctype="multipart/form-data">
               <input type="hidden" name="id" value="<?= htmlspecialchars($category['id']) ?>">
 
               <div class="mb-3">
-              <label class="form-label">Name:</label>
-              <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($category['name']) ?>" required>
+                <label class="form-label">Name:</label>
+                <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($category['name']) ?>" required>
               </div>
 
               <div class="mb-3">
-              <label class="form-label">Description:</label>
-              <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description']) ?></textarea>
+                <label class="form-label">Description:</label>
+                <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description']) ?></textarea>
               </div>
+              
+              <?php if (isset($_GET['error']) && $_GET['error'] == 'invalidFileType'): ?>
+                <div class="alert alert-danger" role="alert">
+                  Invalid file type. Please upload a valid image file (Only JPG, JPEG, PNG, and GIF).
+                </div>
+              <?php endif; ?>
 
               <div class="mb-3">
-              <label class="form-label">Image:</label>
-              <input name="image" class="form-control" type="text" value="<?= htmlspecialchars($category['image']) ?>"/>
+                <label class="form-label">Image:</label>
+                
+                <?php if (!empty($category['image'])): ?>
+                  <div class="mb-3">
+                    <img src="assets/categoryImages/<?= htmlspecialchars($category['image']) ?>" alt="Category Image" class="img-fluid" style="max-width: 100px;">
+                  </div>
+                <?php endif; ?>
+
+                <input type="file" name="image" class="form-control">
+                <input type="hidden" name="old_image" value="<?= htmlspecialchars($category['image']) ?>"> 
               </div>
 
               <button type="submit" class="btn btn-primary">Update Category</button>

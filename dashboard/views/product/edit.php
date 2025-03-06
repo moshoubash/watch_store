@@ -65,17 +65,23 @@
                   <label class="form-label">Description:</label>
                   <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($product['description']) ?></textarea>
               </div>
-
-                <div class="mb-3">
-                  <label class="form-label">Image:</label>
-                  <?php if (!empty($product['image'])): ?>
-                    <div class="mb-3">
-                      <img src="assets/productImages/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="img-fluid" style="max-width: 100px;">
-                    </div>
-                  <?php endif; ?>
-                  <input type="file" name="image" class="form-control">
-                  <input type="hidden" name="old_image" value="<?= htmlspecialchars($product['image']) ?>"> 
+              
+              <?php if (isset($_GET['error']) && $_GET['error'] == 'invalidFileType'): ?>
+                <div class="alert alert-danger" role="alert">
+                  Invalid file type. Please upload a valid image file (Only JPG, JPEG, PNG, and GIF).
                 </div>
+              <?php endif; ?>
+
+              <div class="mb-3">
+                <label class="form-label">Image:</label>
+                <?php if (!empty($product['image'])): ?>
+                  <div class="mb-3">
+                    <img src="assets/productImages/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="img-fluid" style="max-width: 100px;">
+                  </div>
+                <?php endif; ?>
+                <input type="file" name="image" class="form-control">
+                <input type="hidden" name="old_image" value="<?= htmlspecialchars($product['image']) ?>"> 
+              </div>
 
               <div class="mb-3">
                   <label class="form-label">Price:</label>
