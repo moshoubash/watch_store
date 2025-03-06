@@ -25,7 +25,7 @@
         // Store new product
         public function store() {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $fileName = basename($_FILES["image"]["name"]);
+                $fileName = uniqid() . basename($_FILES["image"]["name"]);
                 $uploadDir = "assets/productImages/";
                 $targetFilePath = $uploadDir . $fileName;
                 $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
@@ -78,7 +78,7 @@
                     if (file_exists("assets/productImages/" . $oldImage)) {
                         unlink("assets/productImages/" . $oldImage);
                     }
-                    $fileName = basename($_FILES["image"]["name"]);
+                    $fileName = uniqid() . basename($_FILES["image"]["name"]);
                     $uploadDir = "assets/productImages/";
                     $targetFilePath = $uploadDir . $fileName;
                     $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));

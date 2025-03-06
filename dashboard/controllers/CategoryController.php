@@ -50,6 +50,13 @@
 
         public function delete() {
             $id = $_GET["id"];
+            $targetCategory = $this->categoryModel->getCategoryById($id);
+            $products = $this->categoryModel->getProductsByCategoryId($id);
+            if (count($products) > 0) {
+                $error = "Can't delete category because it has products";
+                header("Location: index.php?controller=category&action=index&error=$error");
+                die();
+            }
             $this->categoryModel->deleteCategory($id);
             header("Location: index.php?controller=category&action=index");
         }

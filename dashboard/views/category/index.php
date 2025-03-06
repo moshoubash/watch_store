@@ -47,6 +47,11 @@
                 </thead>
                 <tbody>
                     <?php foreach ($categories as $category): ?>
+                    <?php if (isset($_GET['error'])): ?>
+                      <div class="alert alert-danger">
+                        <?php echo $_GET['error']; ?>
+                      </div>
+                    <?php endif; ?>
                     <tr>
                         <td><?= $category['id'] ?></td>
                         <td><?= $category['name'] ?></td>
