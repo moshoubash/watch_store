@@ -68,6 +68,15 @@
         // Delete customer
         public function delete() {
             $id = $_GET["id"];
+
+            $targetCustomer = $this->customerModel->getCustomerById($id);
+            $customers = $this->customerModel->getOrdersByCustomerId($id);
+            if (count($customers) > 0) {
+                $error = "The customer cannot be deleted because he has orders.";
+                header("Location: index.php?controller=customer&action=index&error=$error");
+                die();
+            }
+
             $this->customerModel->deleteCustomer($id);
             header("Location: index.php?controller=customer&action=index");
         }

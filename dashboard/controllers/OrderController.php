@@ -17,13 +17,6 @@
             include "views/order/index.php";
         }
 
-        // Delete order
-        public function delete() {
-            $id = $_GET["id"];
-            $this->orderModel->deleteOrder($id);
-            header("Location: index.php?controller=order&action=index");
-        }
-
         // Show order details
         public function show() {
             $id = $_GET["id"];

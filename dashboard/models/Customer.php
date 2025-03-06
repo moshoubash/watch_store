@@ -90,5 +90,13 @@
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result['total_customers'];
         }
+
+        public function getOrdersByCustomerId($id) {
+            $query = "SELECT * FROM orders WHERE user_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 ?>

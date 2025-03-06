@@ -39,17 +39,6 @@
                       <input type="text" name="name" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Select Product:</label>
-                        <select name="product_id" class="form-control" required>
-                            <option value="">Select Product</option>
-                            <?php
-                                foreach ($products as $product) {
-                                    echo "<option value=\"{$product['id']}\">{$product['name']}</option>";
-                                }
-                            ?>
-                        </select>
-                    </div>  
-                    <div class="mb-3">
                       <label class="form-label">Discount Percentage:</label>
                       <input type="number" name="discount_percentage" class="form-control" required min="0" max="100">
                     </div>
