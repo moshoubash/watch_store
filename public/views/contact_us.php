@@ -9,10 +9,18 @@ require_once '../config/con.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/contact_us_page.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
+    
+    
     <title>Contact Us - Timeless Elegance</title>
 </head>
 <body>
+
+<?php include './components/navbar.html'; ?>
+
     <div class="contact_us">
         <div class="contact_us_content">
             <div class="contact_info">
@@ -43,7 +51,7 @@ require_once '../config/con.php';
             </div>
         </div>
         <div class="contact_us_form">
-            <form id="contactForm">
+            <form id="contactForm" class="contact_form">
                 <h1>Contact Us</h1>
                 <p>Fill out the form below and we'll get back to you as soon as possible.</p>
                 
@@ -66,7 +74,8 @@ require_once '../config/con.php';
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    
     <script>
         const form = document.getElementById('contactForm');
         const formErrors = document.getElementById('formErrors');
@@ -102,5 +111,8 @@ require_once '../config/con.php';
             }
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/js/navbar.js"></script>
+    <?php include './components/footer.html'; ?>
 </body>
 </html>

@@ -79,22 +79,22 @@
     padding: 2rem;
   }
   
-  form {
+  .contact_form {
     background-color: #d6d6d669;
     backdrop-filter: blur(10px);
     border-radius: 10px;
     padding: 2rem;
-    width: 100%;
-    max-width: 500px;
+      width: 100%;
+      max-width: 500px;
   }
   
-  form h1 {
+  .contact_form h1 {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 2rem;
   }
   
-  form p {
+  .contact_form p {
     text-align: center;
     margin-bottom: 2rem;
   }
@@ -109,7 +109,7 @@
     font-weight: bold;
   }
   
-  .form-group input,
+   .form-group input,
   .form-group textarea {
     width: 100%;
     padding: 0.75rem;
@@ -124,7 +124,7 @@
   .form-group textarea:focus {
     outline: none;
     border-color: var(--black);
-  }
+  } 
   
   .submit-btn {
     width: 100%;

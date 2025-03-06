@@ -166,5 +166,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             showLogin();
         <?php endif; ?>
     </script>
+    
 </body>
 </html>

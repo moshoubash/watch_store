@@ -1,17 +1,28 @@
 <?php
-require_once '../controllers/product_page.php';
+  // Include the database connection file
+  include('../config/con.php');
+
+  // Get the watch details from the database
+  $watchId = 4;
+  $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
+  $stmt->execute([$watchId]);
+  $watch = $stmt->fetch();
+
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../assets/css/product_page.css" />
-    <title><?php echo htmlspecialchars($watch['name']); ?></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/product_page.css" />
+  <title><?php echo htmlspecialchars($watch['name'])?></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
+<body>
+  
 
-<main class="product-container">
+  <main class="product-container">
     <div class="product-image">
       <?php
         // Use the watch image from database
@@ -27,7 +38,7 @@ require_once '../controllers/product_page.php';
       <br>
       <br>
 
-      <div class="product-status"><?php echo htmlspecialchars($watch['product_condition'])?></div>
+      <div class="product-status">Brand : <?php echo " " . htmlspecialchars($watch['brand'])?></div>
 
       <h1 class="product-title"><?php echo htmlspecialchars($watch['name'])?></h1>
       
@@ -35,9 +46,9 @@ require_once '../controllers/product_page.php';
 
       <div class="product-color">
         <span class="color-label">Color:</span>
-        <span class="color-value">like photo</span>
+        <span class="color-value"><?php echo htmlspecialchars($watch['color'])?></span>
       </div>
-<div><p><?php echo htmlspecialchars($watch['description'])?></p></div>
+
       <div class="color-options">
         <div class="color-swatch selected">
           <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Stainless Steel Watch" />
@@ -45,7 +56,7 @@ require_once '../controllers/product_page.php';
       </div>
 
       <div class="product-price">
-        <div class="current-price"><?php echo htmlspecialchars($watch['Price']).'$'?></div>
+        <div class="current-price"><?php echo htmlspecialchars($watch['price']).'$'?></div>
         <div class="payment-options">
           <?php if ($watch['stock'] > 0): ?>
             <span class="in-stock"><?php echo htmlspecialchars($watch['stock']) . " "?>In Stock</span>

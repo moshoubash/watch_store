@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/about_us.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
     <title>Timeless Elegance</title>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navigation">
+    <!-- <nav class="navigation">
         <div class="logo">Timeless Elegance</div>
         <div class="burger-menu">
             <div class="bar"></div>
@@ -22,7 +25,9 @@
             <li><a href="#team">Our Team</a></li>
             <li><a href="#services">Services</a></li>
         </ul>
-    </nav>
+    </nav> -->
+
+    <?php include './components/navbar.html'; ?>
 
     <!-- Our Story Section -->
     <section id="story" class="our_story_head">
@@ -100,17 +105,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2024 Timeless Elegance. All Rights Reserved.</p>
-            <div class="social-links">
-                <a href="#">Instagram</a>
-                <a href="#">Facebook</a>
-                <a href="#">Twitter</a>
-            </div>
-        </div>
-    </footer>
+    <?php include './components/footer.html'; ?>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const burgerMenu = document.querySelector('.burger-menu');
@@ -130,5 +125,6 @@
             });
         });
     </script>
+    <script src="assets/js/navbar.js"></script>
 </body>
 </html>

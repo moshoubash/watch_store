@@ -17,67 +17,6 @@
     line-height: 1.6;
   }
   
-  /* Navigation */
-  .navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 5%;
-    background-color: var(--white);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: var(--black);
-    transition: color 0.3s ease;
-  }
-  
-  .nav-links a:hover {
-    color: #8C7A6B;
-  }
-  
-  .burger-menu {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    z-index: 200;
-  }
-  
-  .burger-menu .bar {
-    width: 25px;
-    height: 3px;
-    background-color: var(--black);
-    margin: 3px 0;
-    transition: 0.4s;
-  }
-  
-  /* Burger menu active state */
-  .burger-menu.active .bar:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-  }
-  
-  .burger-menu.active .bar:nth-child(2) {
-    opacity: 0;
-  }
-  
-  .burger-menu.active .bar:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
-  
   /* Sections */
   section {
     padding: 4rem 5%;
@@ -226,75 +165,10 @@
         min-height: auto;
     }
   
-    .navigation {
-        flex-direction: column;
-    }
-  
-    .nav-links {
-        margin-top: 1rem;
-    }
-  
     .about_us_content {
         width: 90%;
     }
   }
   
-  @media screen and (max-width: 768px) {
-    .nav-links {
-        flex-direction: column;
-        align-items: center;
-    }
   
-    .team_member {
-        width: 100%;
-    }
-  
-    .service {
-        width: 100%;
-    }
-  
-    .footer-content {
-        flex-direction: column;
-    }
-  
-  
-  
-  /************/  
-  .navigation {
-    position: relative;
-  }
-  
-  .burger-menu {
-    display: flex;
-    position: absolute;
-    right: 5%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .nav-links {
-    position: fixed;
-    left: -100%;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: var(--dark_white);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: 0.3s;
-    z-index: 100;
-  }
-  
-  .nav-links.active {
-    left: 0;
-  }
-  
-  .nav-links li {
-    margin: 1.5rem 0;
-  }
-  
-  .nav-links a {
-    font-size: 1.5rem;
-  }
-  }
+   
