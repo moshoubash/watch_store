@@ -39,6 +39,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Brand</th>
                         <th>Price</th>
@@ -50,6 +51,7 @@
                     <?php foreach ($products as $product): ?>
                     <tr>
                         <td><?= $product['id'] ?></td>
+                        <td><img src="assets/productImages/<?= $product['image'] ?>" alt="<?= $product['name'] ?>" width="75"></td>
                         <td><?= $product['name'] ?></td>
                         <td><?= $product['brand'] ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>

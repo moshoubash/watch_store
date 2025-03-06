@@ -31,7 +31,7 @@
         <div class="container">
           <div class="page-inner">
           <h1 class="mb-4">Edit Product</h1>
-            <form method="POST" action="index.php?controller=product&action=update">
+            <form method="POST" action="index.php?controller=product&action=update" enctype="multipart/form-data">
               <input type="hidden" name="id" value="<?= htmlspecialchars($product['id']) ?>">
 
               <div class="mb-3">
@@ -44,10 +44,17 @@
                   <input type="text" name="brand" class="form-control" value="<?= htmlspecialchars($product['brand']) ?>" required>
               </div>
 
-              <div class="mb-3">
-                  <label class="form-label">Category ID:</label>
-                  <input type="number" name="category_id" class="form-control" value="<?= htmlspecialchars($product['category_id']) ?>" required>
-              </div>
+                <div class="mb-3">
+                  <label class="form-label">Category:</label>
+                  <select name="category_id" class="form-select">
+                  <?php 
+                    foreach ($categories as $category) {
+                      $selected = $category['id'] == $product['category_id'] ? 'selected' : '';
+                      echo "<option value='" . $category['id'] . "' $selected>" . $category['name'] . "</option>";
+                    }
+                  ?>
+                  </select>
+                </div>
 
               <div class="mb-3">
                   <label class="form-label">Color:</label>
@@ -59,10 +66,16 @@
                   <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($product['description']) ?></textarea>
               </div>
 
-              <div class="mb-3">
-                  <label class="form-label">Image URL:</label>
-                  <input type="text" name="image" class="form-control" value="<?= htmlspecialchars($product['image']) ?>">
-              </div>
+                <div class="mb-3">
+                  <label class="form-label">Image:</label>
+                  <?php if (!empty($product['image'])): ?>
+                    <div class="mb-3">
+                      <img src="assets/productImages/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="img-fluid" style="max-width: 100px;">
+                    </div>
+                  <?php endif; ?>
+                  <input type="file" name="image" class="form-control">
+                  <input type="hidden" name="old_image" value="<?= htmlspecialchars($product['image']) ?>"> 
+                </div>
 
               <div class="mb-3">
                   <label class="form-label">Price:</label>

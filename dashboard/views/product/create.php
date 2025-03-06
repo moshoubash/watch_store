@@ -31,7 +31,7 @@
         <div class="container">
           <div class="page-inner">
           <h1 class="mb-4">Add New Product</h1>
-          <form method="POST" action="index.php?controller=product&action=store">
+          <form method="POST" action="index.php?controller=product&action=store" enctype="multipart/form-data">
               <div class="row">
                   <div class="col-md-12">
                       <div class="mb-3">
@@ -62,9 +62,14 @@
                           <label class="form-label">Description:</label>
                           <textarea name="description" class="form-control" rows="3"></textarea>
                       </div>
+                      <?php if (isset($_GET['error']) && $_GET['error'] == 'invalidFileType'): ?>
+                        <div class="alert alert-danger" role="alert">
+                          Invalid file type. Please upload a valid image file (Only JPG, JPEG, PNG, and GIF).
+                        </div>
+                      <?php endif; ?>
                       <div class="mb-3">
-                          <label class="form-label">Image URL:</label>
-                          <input type="text" name="image" class="form-control">
+                          <label class="form-label">Product Image:</label>
+                          <input type="file" name="image" accept="image/*" class="form-control">
                       </div>
                       <div class="mb-3">
                           <label class="form-label">Price:</label>

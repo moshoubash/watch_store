@@ -22,27 +22,45 @@
             include "views/product/create.php";
         }
 
-        // Store new product in database
+        // Store new product
         public function store() {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $fileName = basename($_FILES["image"]["name"]);
+                $uploadDir = "assets/productImages/";
+                $targetFilePath = $uploadDir . $fileName;
+                $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+        
+                $allowedTypes = ["jpg", "jpeg", "png", "gif"];
+        
+                if (!in_array($fileType, $allowedTypes)) {
+                    header("Location: index.php?controller=product&action=create&error=invalidFileType");
+                }
+        
+                move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath);
+        
                 $data = [
                     "name" => $_POST["name"],
                     "brand" => $_POST["brand"],
                     "category_id" => $_POST["category_id"],
                     "color" => $_POST["color"],
                     "description" => $_POST["description"],
-                    "image" => $_POST["image"], 
                     "price" => $_POST["price"],
                     "stock" => $_POST["stock"],
+                    "image" => $fileName
                 ];
+        
                 $this->productModel->createProduct($data);
+        
                 header("Location: index.php?controller=product&action=index");
+                exit();
             }
         }
+        
 
         // Show form to edit product
         public function edit() {
             $id = $_GET["id"];
+            $categories = $this->categoryModel->getAllCategories();
             $product = $this->productModel->getProductById($id);
             include "views/product/edit.php";
         }
@@ -50,6 +68,35 @@
         // Update existing product
         public function update() {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                
+                //handle old image
+                $id = $_POST["id"];
+                $product = $this->productModel->getProductById($id);
+                $oldImage = $product["image"];
+
+                if (!empty($_FILES["image"]["name"])) {
+                    if (file_exists("assets/productImages/" . $oldImage)) {
+                        unlink("assets/productImages/" . $oldImage);
+                    }
+                    $fileName = basename($_FILES["image"]["name"]);
+                    $uploadDir = "assets/productImages/";
+                    $targetFilePath = $uploadDir . $fileName;
+                    $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+            
+                    $allowedTypes = ["jpg", "jpeg", "png", "gif"];
+            
+                    if (!in_array($fileType, $allowedTypes)) {
+                        header("Location: index.php?controller=product&action=create&error=invalidFileType");
+                        exit();
+                    }
+            
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath);
+                } else {
+                    $fileName = $oldImage;
+                }
+        
+                move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath);
+
                 $data = [
                     "id" => $_POST["id"],
                     "name" => $_POST["name"],
@@ -57,7 +104,7 @@
                     "category_id" => $_POST["category_id"],
                     "color" => $_POST["color"],
                     "description" => $_POST["description"],
-                    "image" => $_POST["image"], 
+                    "image" => $fileName, 
                     "price" => $_POST["price"],
                     "stock" => $_POST["stock"],
                 ];
