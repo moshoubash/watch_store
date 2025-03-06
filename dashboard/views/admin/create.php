@@ -33,6 +33,11 @@
             <div class="container">
                 <div class="page-inner">
                     <h1>Add New Admin</h1>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            Email is already registered
+                        </div>
+                    <?php endif; ?>
                     <form method="POST" action="index.php?controller=admin&action=store">
                         <div class="row">
                             <div class="col-md-12">

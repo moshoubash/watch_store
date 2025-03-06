@@ -55,7 +55,15 @@
                 <td><?= $order['id'] ?></td>
                 <td><?= $order['user_id'] ?></td>
                 <td><?= $order['total_price'] ?></td>
-                <td><span class="badge bg-dark"><?= $order['status'] ?></span></td>
+                <td>
+                  <?php if ($order['status'] == 'cancelled'): ?>
+                  <span class="badge bg-danger"><?= $order['status'] ?></span>
+                  <?php elseif ($order['status'] == 'delivered'): ?>
+                  <span class="badge bg-success"><?= $order['status'] ?></span>
+                  <?php else: ?>
+                  <span class="badge bg-dark"><?= $order['status'] ?></span>
+                  <?php endif; ?>
+                </td>
                 <td><?= $order['created_at'] ?></td>
                 <td>
                   <a href="index.php?controller=order&action=show&id=<?= $order['id'] ?>" class="btn btn-sm btn-dark"><i class="fas fa-info-circle"></i></a>

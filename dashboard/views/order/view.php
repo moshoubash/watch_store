@@ -45,7 +45,7 @@
                 <p><b>Status:</b> 
                   <form action="index.php?controller=order&action=updateStatus" method="post">
                     <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
-                    <select name="status" onchange="this.form.submit()">
+                    <select name="status" onchange="this.form.submit()" class="form-select">
                       <option value="pending" <?php echo $order['status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
                       <option value="shipped" <?php echo $order['status'] == 'shipped' ? 'selected' : ''; ?>>Shipped</option>
                       <option value="delivered" <?php echo $order['status'] == 'delivered' ? 'selected' : ''; ?>>Delivered</option>
@@ -60,7 +60,7 @@
                 <table border="1" class="table table-striped">
                     <thead class="table-dark">
                         <tr>
-                            <th>Item ID</th>
+                            <th>Order Item ID</th>
                             <th>Product ID</th>
                             <th>Quantity</th>
                             <th>Price</th>
@@ -73,7 +73,9 @@
                                         <td>{$item['id']}</td>
                                         <td>{$item['product_id']}</td>
                                         <td>{$item['quantity']}</td>
-                                        <td>{$item['price']}</td>
+                                        <td>
+                                          {$item['price']}
+                                        </td>
                                     </tr>";
                             }
                         ?>    

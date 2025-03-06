@@ -11,7 +11,6 @@
 
   <!-- Fonts and icons -->
   <?php require_once "views/layouts/components/fonts.html"; ?>
-
 </head>
 
 <body>
@@ -49,13 +48,16 @@
                   <input type="email" name="email" class="form-control"
                     value="<?= htmlspecialchars($customer['email']) ?>" required>
                 </div>
+                
                 <!--Hidden Role-->
                 <input type="hidden" name="role" value="user" class="form-control">
+                
                 <div class="mb-3">
                   <label class="form-label">Phone Number:</label>
                   <input type="text" name="phone_number" class="form-control"
                     value="<?= htmlspecialchars($customer['phone_number']) ?>">
                 </div>
+
                 <div class="mb-3">
                   <label class="form-label">Password:</label>
                   <input type="password" name="password" class="form-control" value="<?= htmlspecialchars($customer['password']) ?>">

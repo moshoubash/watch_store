@@ -26,6 +26,17 @@
         }
 
         public function createAdmin($data){
+            $query = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE email = :email";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result['count'] > 0) {
+                header("Location: index.php?controller=admin&action=create&error=email_exist");
+                exit();
+            }
+
             $query = "INSERT INTO " . $this->table . " (name, email, role, phone_number, country, city, street, state, postal_code, password) 
                     VALUES (:name, :email, :role, :phone_number, :country, :city, :street, :state, :postal_code, :password)";
             $stmt = $this->conn->prepare($query);
