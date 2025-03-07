@@ -61,22 +61,24 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Order Item ID</th>
-                            <th>Product ID</th>
+                            <th>Product Image</th>
+                            <th>Product Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                            foreach ($orderItems as $item) {
-                                echo "<tr>
-                                        <td>{$item['id']}</td>
-                                        <td>{$item['product_id']}</td>
-                                        <td>{$item['quantity']}</td>
-                                        <td>
-                                          {$item['price']}
-                                        </td>
-                                    </tr>";
+                            foreach ($orderItemsWithProductInfo as $item) {
+                              echo "<tr>
+                                  <td>{$item['item']['id']}</td>
+                                  <td>
+                                    <img src='assets/productImages/{$item['product']['image']}' alt='{$item['product']['name']}' width='100'>
+                                  </td>
+                                  <td>{$item['product']['name']}</td>
+                                  <td>{$item['item']['quantity']}</td>
+                                  <td>{$item['item']['price']}</td>
+                                </tr>";
                             }
                         ?>    
                     </tbody>

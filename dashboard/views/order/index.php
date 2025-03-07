@@ -56,12 +56,16 @@
                 <td><?= $order['user_id'] ?></td>
                 <td><?= $order['total_price'] ?></td>
                 <td>
-                  <?php if ($order['status'] == 'cancelled'): ?>
-                  <span class="badge bg-danger"><?= $order['status'] ?></span>
+                  <?php if ($order['status'] == 'pending'): ?>
+                    <span class="badge bg-warning"><?= $order['status'] ?></span>
+                  <?php elseif ($order['status'] == 'shipped'): ?>
+                    <span class="badge bg-info"><?= $order['status'] ?></span>
                   <?php elseif ($order['status'] == 'delivered'): ?>
-                  <span class="badge bg-success"><?= $order['status'] ?></span>
+                    <span class="badge bg-success"><?= $order['status'] ?></span>
+                  <?php elseif ($order['status'] == 'cancelled'): ?>
+                    <span class="badge bg-danger"><?= $order['status'] ?></span>
                   <?php else: ?>
-                  <span class="badge bg-dark"><?= $order['status'] ?></span>
+                    <span class="badge bg-dark"><?= $order['status'] ?></span>
                   <?php endif; ?>
                 </td>
                 <td><?= $order['created_at'] ?></td>
