@@ -18,6 +18,8 @@
         }
 
         public function store() {
+            $confirmPassword = $_POST["confirm-password"];
+            
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "name" => $_POST["name"],
@@ -29,8 +31,10 @@
                     "street" => $_POST["street"],
                     "state" => $_POST["state"],
                     "postal_code" => $_POST["postal_code"],
-                    "password" => password_hash($_POST["password"], PASSWORD_DEFAULT),
+                    "password" => $_POST["password"],
+                    "confirm-password" => $confirmPassword,
                 ];
+
                 $this->adminModel->createAdmin($data);
                 header("Location: index.php?controller=admin&action=index");
             }

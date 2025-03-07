@@ -5,10 +5,12 @@
     class OrderController {
         private $orderModel;
         private $customerModel;
+        private $productModel;
 
         public function __construct() {
             $this->orderModel = new Order();
             $this->customerModel = new Customer();
+            $this->productModel = new Product();
         }
 
         // Display all orders
@@ -23,6 +25,16 @@
             $order = $this->orderModel->getOrderById($id);
             $customer = $this->customerModel->getCustomerById($order["user_id"]);
             $orderItems = $this->orderModel->getOrderItems($id);
+            
+            $orderItemsWithProductInfo = [];
+            foreach ($orderItems as $item) {
+                $product = $this->productModel->getProductById($item["product_id"]);
+                $orderItemsWithProductInfo[] = [
+                    "item" => $item,
+                    "product" => $product
+                ];
+            }
+
             include "views/order/view.php";
         }
 
