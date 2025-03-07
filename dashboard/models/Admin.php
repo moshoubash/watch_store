@@ -26,20 +26,35 @@
         }
 
         public function createAdmin($data){
-            $query = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE email = :email";
+            $query = "SELECT COUNT(*) as count 
+                      FROM " . $this->table . " 
+                      WHERE email = :email";
+                      
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":email", $data['email']);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            
             if ($result['count'] > 0) {
-                header("Location: index.php?controller=admin&action=create&error=email_exist");
+                if ($data['password'] != $data['confirm-password']) {
+                    header("Location: index.php?controller=admin&action=create&error=email_exists_password_mismatch");
+                } else {
+                    header("Location: index.php?controller=admin&action=create&error=email_exists");
+                }
                 exit();
             }
-
+            
+            if ($data['password'] != $data['confirm-password']) {
+                header("Location: index.php?controller=admin&action=create&error=password_mismatch");
+                exit();
+            }
+            
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
             $query = "INSERT INTO " . $this->table . " (name, email, role, phone_number, country, city, street, state, postal_code, password) 
                     VALUES (:name, :email, :role, :phone_number, :country, :city, :street, :state, :postal_code, :password)";
             $stmt = $this->conn->prepare($query);
+            unset($data['confirm-password']);
             return $stmt->execute($data);
         }
 
@@ -51,6 +66,20 @@
         }
 
         public function updateAdmin($data){
+            $query = "SELECT COUNT(*) as count 
+                      FROM " . $this->table . " 
+                      WHERE email = :email";
+                      
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result['count'] > 0) {
+                header("Location: index.php?controller=admin&action=edit&error=email_exists&id=" . $data['id']);
+                exit();
+            }
+            
             $query = "UPDATE " . $this->table . " 
                     SET name = :name,
                         email = :email, 
@@ -63,6 +92,7 @@
                         postal_code = :postal_code,
                         password = :password
                     WHERE id = :id";
+            
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);
         }

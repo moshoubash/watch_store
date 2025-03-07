@@ -35,7 +35,15 @@
                     <h1>Add New Admin</h1>
                     <?php if (isset($_GET['error'])) : ?>
                         <div class="alert alert-danger" role="alert">
-                            Email is already registered
+                            <?php
+                                if ($_GET['error'] === 'email_exists') {
+                                    echo "Email already exists!";
+                                } elseif ($_GET['error'] === 'password_mismatch') {
+                                    echo "Passwords do not match!";
+                                } elseif ($_GET['error'] === 'email_exists_password_mismatch') {
+                                    echo "Email already exists and passwords do not match!";
+                                }
+                            ?>
                         </div>
                     <?php endif; ?>
                     <form method="POST" action="index.php?controller=admin&action=store">
@@ -46,6 +54,7 @@
                                     <label class="form-label">Name:</label>
                                     <input type="text" name="name" class="form-control" required>
                                 </div>
+                                
                                 <div class="mb-3">
                                     <label class="form-label">Email:</label>
                                     <input type="email" name="email" class="form-control" required>
@@ -62,9 +71,15 @@
                                     <label class="form-label">Phone Number:</label>
                                     <input type="text" name="phone_number" class="form-control">
                                 </div>
+                                
                                 <div class="mb-3">
                                     <label class="form-label">Password:</label>
-                                    <input type="password" name="password" class="form-control">
+                                    <input type="password" name="password" class="form-control" minlength="8">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm Password:</label>
+                                    <input type="password" name="confirm-password" class="form-control" minlength="8">
                                 </div>
 
                                 <h2>Address Details</h2>

@@ -11,7 +11,7 @@
         }
 
         public function getAllCustomers() {
-            $query = "SELECT * FROM " . $this->table;
+            $query = "SELECT * FROM " . $this->table . " WHERE role = 'user'";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -26,24 +26,52 @@
         }
 
         public function createCustomer($data) {
-            $query = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE email = :email";
+            $query = "SELECT COUNT(*) as count 
+                      FROM " . $this->table . " 
+                      WHERE email = :email";
+            
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":email", $data['email']);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($result['count'] > 0) {
-                header("Location: index.php?controller=customer&action=create&error=email_exist");
+                if ($data['password'] != $data['confirm_password']) {
+                    header("Location: index.php?controller=customer&action=create&error=email_exists_password_mismatch");
+                } else {
+                    header("Location: index.php?controller=customer&action=create&error=email_exists");
+                }
                 exit();
             }
             
+            if ($data['password'] != $data['confirm_password']) {
+                header("Location: index.php?controller=customer&action=create&error=password_mismatch");
+                exit();
+            }
+            
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
             $query = "INSERT INTO " . $this->table . " (name, email, role, phone_number, country, city, street, state, postal_code, password) 
                     VALUES (:name, :email, :role, :phone_number, :country, :city, :street, :state, :postal_code, :password)";
             $stmt = $this->conn->prepare($query);
+            unset($data['confirm_password']);
             return $stmt->execute($data);
         }
 
         public function updateCustomer($data) {
+            $query = "SELECT COUNT(*) as count 
+                      FROM " . $this->table . " 
+                      WHERE email = :email";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result['count'] > 0) {
+                header("Location: index.php?controller=customer&action=edit&error=email_exists&id=" . $data['id']);
+                exit();
+            }
+            
             $query = "UPDATE " . $this->table . " 
                     SET name = :name,
                         email = :email, 
