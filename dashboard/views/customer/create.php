@@ -33,11 +33,21 @@
             <div class="container">
                 <div class="page-inner">
                     <h1>Add New Customer</h1>
+                    
                     <?php if (isset($_GET['error'])) : ?>
                         <div class="alert alert-danger" role="alert">
-                            Email is already registered
+                            <?php
+                                if ($_GET['error'] === 'email_exists') {
+                                    echo "Email already exists!";
+                                } elseif ($_GET['error'] === 'password_mismatch') {
+                                    echo "Passwords do not match!";
+                                } elseif ($_GET['error'] === 'email_exists_password_mismatch') {
+                                    echo "Email already exists and passwords do not match!";
+                                }
+                            ?>
                         </div>
                     <?php endif; ?>
+
                     <form method="POST" action="index.php?controller=customer&action=store">
                         <div class="row">
                             <div class="col-md-12">
@@ -58,7 +68,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password:</label>
-                                    <input type="password" name="password" class="form-control">
+                                    <input type="password" name="password" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm Password:</label>
+                                    <input type="password" name="confirm_password" class="form-control" required>
                                 </div>
 
                                 <h2>Address Details</h2>

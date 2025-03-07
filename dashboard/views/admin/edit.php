@@ -33,6 +33,17 @@
       <div class="container">
         <div class="page-inner">
           <h1>Edit admin</h1>
+          
+          <?php if (isset($_GET['error'])) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?php
+                    if ($_GET['error'] === 'email_exists') {
+                        echo "Email already exists!";
+                    }
+                ?>
+            </div>
+          <?php endif; ?>
+
           <form method="POST" action="index.php?controller=admin&action=update">
             <input type="hidden" name="id" value="<?= htmlspecialchars($admin['id']) ?>">
 
@@ -49,24 +60,17 @@
                   <input type="email" name="email" class="form-control"
                     value="<?= htmlspecialchars($admin['email']) ?>" required>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Role:</label>
-                    <select name="role" class="form-control">
-                        <option value="">Select Role</option>
-                        <option value="admin" <?= $admin['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
-                        <option value="superadmin" <?= $admin['role'] === 'superadmin' ? 'selected' : '' ?>>Super Admin</option>
-                    </select>
-                </div>
+                
+                <input type="hidden" name="role" class="form-control" value="<?= htmlspecialchars($admin['role']) ?>">
+                
                 <div class="mb-3">
                   <label class="form-label">Phone Number:</label>
                   <input type="text" name="phone_number" class="form-control"
                     value="<?= htmlspecialchars($admin['phone_number']) ?>">
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Password:</label>
-                  <input type="password" name="password" class="form-control" value="<?= htmlspecialchars($admin['password']) ?>">
-                </div>
-
+                  
+                <input type="hidden" name="password" class="form-control" value="<?= htmlspecialchars($admin['password']) ?>">
+                
                 <h2>Address Details</h2>
                 <hr>
                 <div class="mb-3">

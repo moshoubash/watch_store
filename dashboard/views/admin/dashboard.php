@@ -170,7 +170,7 @@
                             <td class="text-end"><?php echo date('Y-m-d h:i:s A', strtotime($order['created_at'])); ?></td>
                             <td class="text-end">$<?php echo $order['total_price']; ?></td>
                             <td class="text-end">
-                            <span class="badge badge-<?php echo $order['status'] == 'delivered' ? 'success' : 'info'; ?>"><?php echo $order['status']; ?></span>
+                                <span class="badge badge-<?php echo $order['status'] == 'delivered' ? 'success' : ($order['status'] == 'cancelled' ? 'danger' : ($order['status'] == 'pending' ? 'warning' : 'info')); ?>"><?php echo $order['status']; ?></span>
                             </td>
                           </tr>
                           <?php endforeach; ?>

@@ -31,7 +31,8 @@
                     "postal_code" => $_POST["postal_code"],
                     "phone_number" => $_POST["phone_number"],
                     "role" => $_POST["role"],
-                    "password" => password_hash($_POST["password"], PASSWORD_DEFAULT),
+                    "password" => $_POST["password"],
+                    "confirm_password" => $_POST["confirm_password"],
                 ];
                 $this->customerModel->createCustomer($data);
                 header("Location: index.php?controller=customer&action=index");
