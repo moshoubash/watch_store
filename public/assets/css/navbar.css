@@ -5,7 +5,7 @@
   font-family: 'Arial', sans-serif;
 }
 
-body {
+/* body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@ body {
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
-}
+} */
 
 .navbar {
   background-color: #ffffff;

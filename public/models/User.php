@@ -1,17 +1,20 @@
 <?php
-class User {
+
+require_once '../config/database.php';
+
+class Users {
     private $conn;
     private $table = 'users';
 
     public $id;
-    public $UserName;
-    public $Email;
+    public $name;
+    public $email;
     public $country;
     public $state;
     public $city;
-    public $s_address;
-    public $zip;
-    public $phone;
+    public $street;
+    public $postal_code;
+    public $phone_number;
     public $password;
     public $role;
 
@@ -21,38 +24,38 @@ class User {
 
     public function create() {
         $query = "INSERT INTO " . $this->table . " SET
-            UserName = :UserName,
-            Email = :Email,
+            name = :name,
+            email = :email,
             country = :country,
             state = :state,
             city = :city,
-            s_address = :s_address,
-            zip = :zip,
-            pho_num = :phone,
+            street = :street,
+            postal_code = :postal_code,
+            phone_number = :phone_number,
             password = :password,
             role = :role";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->UserName = htmlspecialchars(strip_tags($this->UserName));
-        $this->Email = htmlspecialchars(strip_tags($this->Email));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
         $this->country = htmlspecialchars(strip_tags($this->country));
         $this->state = htmlspecialchars(strip_tags($this->state));
         $this->city = htmlspecialchars(strip_tags($this->city));
-        $this->s_address = htmlspecialchars(strip_tags($this->s_address));
-        $this->zip = htmlspecialchars(strip_tags($this->zip));
-        $this->phone = htmlspecialchars(strip_tags($this->phone));
+        $this->street = htmlspecialchars(strip_tags($this->street));
+        $this->postal_code = htmlspecialchars(strip_tags($this->postal_code));
+        $this->phone_number = htmlspecialchars(strip_tags($this->phone_number));
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
         $this->role = htmlspecialchars(strip_tags($this->role));
 
-        $stmt->bindParam(':UserName', $this->UserName);
-        $stmt->bindParam(':Email', $this->Email);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':country', $this->country);
         $stmt->bindParam(':state', $this->state);
         $stmt->bindParam(':city', $this->city);
-        $stmt->bindParam(':s_address', $this->s_address);
-        $stmt->bindParam(':zip', $this->zip);
-        $stmt->bindParam(':phone', $this->phone);
+        $stmt->bindParam(':street', $this->street);
+        $stmt->bindParam(':postal_code', $this->postal_code);
+        $stmt->bindParam(':phone_number', $this->phone_number);
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':role', $this->role);
 
@@ -63,10 +66,10 @@ class User {
         return false;
     }
 
-    public function findByEmail() {
-        $query = "SELECT * FROM " . $this->table . " WHERE Email = :Email";
+    public function findByemail() {
+        $query = "SELECT * FROM " . $this->table . " WHERE email = :email";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':Email', $this->Email);
+        $stmt->bindParam(':email', $this->email);
         $stmt->execute();
         return $stmt;
     }
