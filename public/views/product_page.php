@@ -29,9 +29,9 @@
     <div class="product-image">
       <?php
         // Use the watch image from database
-        $imageUrl = $watch['image'] ?? 'https://timex.com/cdn/shop/files/8603_TX_TC24_feature_collection_TW2W98900.jpg?v=1739944454&width=768';
+        $imageUrl =  $watch['image'] ? "/watch_store/dashboard/assets/productImages/" . $watch['image'] :  "/watch_store/dashboard/assets/productImages/placeholder.jpg";
       ?>
-      <!-- <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" /> -->
+      <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" />
     <style>
       .product-image {
         background-image: url("<?php echo htmlspecialchars($imageUrl); ?>");

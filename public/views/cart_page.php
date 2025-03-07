@@ -98,7 +98,7 @@ $page_title = 'Shopping Cart';
                     $<?php echo number_format($item['price'], 2); ?>
                 </div>
                 
-                <form action="cart_controller.php" method="post" class="remove-form">
+                <form action="../controllers/" method="post" class="remove-form">
                     <input type="hidden" name="action" value="remove">
                     <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                     <button type="submit" class="remove-item">&times;</button>
@@ -145,7 +145,7 @@ $page_title = 'Shopping Cart';
             <button type="submit" class="checkout-btn">Proceed to Checkout</button>
         </form>
         
-        <form action="cart_controller.php" method="post" class="empty-cart-form">
+        <form action="../controllers/cart_controller.php" method="post" class="empty-cart-form">
             <input type="hidden" name="action" value="empty">
             <button type="submit" class="empty-cart-btn">Empty Cart</button>
         </form>
