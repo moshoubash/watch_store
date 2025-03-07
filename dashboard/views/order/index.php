@@ -31,13 +31,24 @@
       <!-- Main Content -->
       <div class="container">
         <div class="page-inner">
-          <h1>Orders List</h1>
-            <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h1>Orders List</h1>
+              <!-- Generate Report Button -->
+              <div>
+                <a href="/watch_store/dashboard/services/orderReport/order_report.php" class="btn btn-danger">
+                  <i class="fas fa-file-download"></i> PDF
+                </a>
+                <a href="/watch_store/dashboard/services/orderReport/order_report_csv.php" class="btn btn-success">
+                  <i class="fas fa-file-download"></i> CSV
+                </a>
+              </div>
+            </div>
+          <div class="mb-3">
             <form action="index.php?controller=order&action=search" method="POST" class="form-inline d-flex">
               <input type="text" name="keyword" class="form-control" placeholder="Search by order id or customer id or status">
               <button type="submit" class="btn btn-primary">Search</button>
             </form>
-            </div>
+          </div>
           <table class="table table-striped">
             <thead class="table-dark">
               <tr>
