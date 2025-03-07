@@ -1,5 +1,5 @@
 <?php
-require_once '../config/con.php';
+require_once '../config/connectt.php';
 require_once '../models/contactmodel.php';
 require_once './contact_us_controller.php';
 

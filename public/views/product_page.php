@@ -1,6 +1,6 @@
 <?php
   // Include the database connection file
-  include('../config/con.php');
+  include('../config/connectt.php');
 
   // Get the watch details from the database
   $watchId = 4;
@@ -15,12 +15,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../assets/css/product_page.css" />
   <title><?php echo htmlspecialchars($watch['name'])?></title>
+  <link rel="stylesheet" href="../assets/css/product_page.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/navbar.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
 </head>
 <body>
   
+<?php include './components/navbar.html'; ?>
 
   <main class="product-container">
     <div class="product-image">
@@ -28,7 +31,15 @@
         // Use the watch image from database
         $imageUrl = $watch['image'] ?? 'https://timex.com/cdn/shop/files/8603_TX_TC24_feature_collection_TW2W98900.jpg?v=1739944454&width=768';
       ?>
-      <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" />
+      <!-- <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" /> -->
+    <style>
+      .product-image {
+        background-image: url("<?php echo htmlspecialchars($imageUrl); ?>");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    </style>
     </div>
 
     <div class="product-details">
@@ -42,7 +53,7 @@
 
       <h1 class="product-title"><?php echo htmlspecialchars($watch['name'])?></h1>
       
-      <div class="product-size">41 mm</div>
+      <div class="product-size"><?php echo htmlspecialchars($watch['description'])?></div>
 
       <div class="product-color">
         <span class="color-label">Color:</span>
@@ -91,5 +102,10 @@
   
     </div>
   </main>
+
+  <?php include './components/footer.html'; ?>
+
+  <script src="../assets/js/navbar.js"></script>
+
 </body>
 </html>
