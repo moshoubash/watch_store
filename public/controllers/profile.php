@@ -1,5 +1,5 @@
 <?php
-include_once '../config/con.php';
+include_once '../config/connectt.php';
 include_once '../models/profile.php';
 include_once '../models/user_payment_history.php';
 
