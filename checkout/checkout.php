@@ -4,7 +4,7 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
 
-    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    header('Location: /watch_store/public/views/signup_login.php');
     exit;
 }
 

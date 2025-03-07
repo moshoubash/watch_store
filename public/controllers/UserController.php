@@ -50,7 +50,7 @@ class UserController {
         } elseif ($user['role'] === 'admin') {
             header("Location: admin_dashboard.php");
         } else {
-            header("Location: http://localhost/watch_store_clone/public/");
+            header("Location: /watch_store/public/");
         }
         exit();
     }

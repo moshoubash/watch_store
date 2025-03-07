@@ -12,7 +12,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (!isset($_SESSION['user_id'])) {
 
-    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    header('Location: /watch_store/public/views/signup_login.php');
     exit;
 }
 
@@ -56,14 +56,11 @@ try {
     <main>
         <div class="profile">
         <div class="profile_img" style="background-image: url('<?php echo htmlspecialchars(($user['image'] != "") ? $user['image'] : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'); ?>');"></div>
-
             <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
             <div>
-            <div class="edit_btn"><a href="http://localhost/watch_store_clone/public/views/profile_page/pro_edit.php" style="text-decoration: none; color: white;">Edit Profile</a></div>
-
-            <div class="edit_btn"><a href="http://localhost/watch_store_clone/public/" style="text-decoration: none; color: white;">Home page</a></div>
-
-            <div class="edit_btn"><a href="http://localhost/watch_store_clone/public/views/logout.php" style="text-decoration: none; color: white;"> logout </a></div>
+            <div class="edit_btn"><a href="./pro_edit.php" style="text-decoration: none; color: white;">Edit Profile</a></div>
+            <div class="edit_btn"><a href="/watch_store/public" style="text-decoration: none; color: white;">Home page</a></div>
+            <div class="edit_btn"><a href="../logout.php" style="text-decoration: none; color: white;"> logout </a></div>
         </div>
     </div>
 

@@ -4,6 +4,6 @@ session_unset();
 session_destroy(); 
 
 
-header("Location: http://localhost/watch_store_clone/public/");
+header("Location: /watch_store/public");
 exit();
 ?>

@@ -1,20 +1,15 @@
 <?php
-session_start();
-if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'user' && $_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'superadmin')) {
-    header("Location: Timex.php");
-    exit();
-        }
-        $host="localhost";
-        $dbname="watch_store";
-        $username="root";
-        $password="";
-        $dsn="mysql:host=$host;dbname=$dbname";
-        try {
-            $conn = new PDO($dsn, $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
-            echo "Database Connection Failed: " . $e->getMessage();
-        }
+$host="localhost";
+$dbname="watch_store";
+$username="root";
+$password="";
+$dsn="mysql:host=$host;dbname=$dbname";
+try {
+    $conn = new PDO($dsn, $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo "Database Connection Failed: " . $e->getMessage();
+}
 
 $categories = isset($_GET['categories']) ? $_GET['categories'] : 'all';
 
@@ -91,15 +86,14 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./category.css">
-    <link rel="stylesheet" href="../public/assets/css/navbar.css">
-    <link rel="stylesheet" href="../public/assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/category.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
     <title>Luxury Watches</title>
-
 </head>
+
 <body>
-    
-<?php include '../public/views/components/navbar.html'; ?>
+    <?php include './components/navbar.html'; ?>
     <main class="container">
         <aside class="sidebar">
             <h3>Filters</h3>
@@ -110,19 +104,21 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
             <select id="filter-brand">
                 <option value="all">All Brands</option>
                 <?php foreach ($brands as $brand): ?>
-                    <option value="<?= htmlspecialchars($brand) ?>"><?= htmlspecialchars($brand) ?></option>
+                <option value="<?= htmlspecialchars($brand) ?>">
+                    <?= htmlspecialchars($brand) ?>
+                </option>
                 <?php endforeach; ?>
             </select>
             <h4>Color</h4>
-                <select id="filter-color">
-                    <option value="all">All Colors</option>
-                    <option value="Black">Black</option>
-                    <option value="Silver">Silver</option>
-                    <option value="gold">gold</option>
-                    <option value="Rose Gold">Rose Gold</option>
-                    <option value="Space">Space</option>
-                    <option value="Gray">Gray</option>
-                </select>
+            <select id="filter-color">
+                <option value="all">All Colors</option>
+                <option value="Black">Black</option>
+                <option value="Silver">Silver</option>
+                <option value="gold">gold</option>
+                <option value="Rose Gold">Rose Gold</option>
+                <option value="Space">Space</option>
+                <option value="Gray">Gray</option>
+            </select>
             <h4>Key Features</h4>
             <label><input type="checkbox" id="feature-chrono"> Chronograph</label>
             <label><input type="checkbox" id="feature-auto"> Automatic</label>
@@ -130,41 +126,51 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
             <button class="reset" id="resetFilters">Reset Filters</button>
         </aside>
         <section class="products">
-            <h2>Luxury Watches<?= $categories !== 'all' ? ' - ' . ucfirst($categories) : '' ?></h2>
+            <h2>Luxury Watches
+                <?= $categories !== 'all' ? ' - ' . ucfirst($categories) : '' ?>
+            </h2>
             <p>Explore our exclusive collection of high-end luxury watches crafted with precision and elegance.</p>
             <div class="product-list">
                 <?php foreach ($products as $product): ?>
-                    <div class="card" 
-                        data-brand="<?= htmlspecialchars($product['brand']) ?>" 
-                        data-price="<?= $product['price'] ?>" 
-                        data-color="<?= htmlspecialchars($product['color'] ?? '') ?>">
-                        
-                        <a href="../public/views/product_page.php?id=<?= $product['id'] ?>" class="product-link">
-                            <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" width="200" height="200">
-                        </a>
-                        
-                        <a href="../public/views/product_page.php?id=<?= $product['id'] ?>" class="product-title">
-                            <h3><?= htmlspecialchars($product['name']) ?></h3>
-                        </a>
-                        
-                        <p class="price">$<?= number_format($product['price'], 2) ?></p>
-                        <p class="brand"><?= htmlspecialchars($product['brand']) ?></p>
-                        <?php if (isset($product['color'])): ?>
-                            <p class="color">Color: <?= htmlspecialchars($product['color']) ?></p>
-                            <?php echo "Product: " . $product['name'] . ", Color: " . ($product['color'] ?? 'None') . "<br>"; ?>
-                        <?php endif; ?>
-                        
-                        <form method="post">
-                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                            <button type="submit" name="add_to_cart">Add to Cart</button>
-                        </form>
-                    </div>
+                <div class="card" data-brand="<?= htmlspecialchars($product['brand']) ?>"
+                    data-price="<?= $product['price'] ?>" data-color="<?= htmlspecialchars($product['color'] ?? '') ?>">
+
+                    <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-link">
+                        <img src="<?= htmlspecialchars($product['image']) ?>"
+                            alt="<?= htmlspecialchars($product['name']) ?>" width="200" height="200">
+                    </a>
+
+                    <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-title">
+                        <h3>
+                            <?= htmlspecialchars($product['name']) ?>
+                        </h3>
+                    </a>
+
+                    <p class="price">$
+                        <?= number_format($product['price'], 2) ?>
+                    </p>
+                    <p class="brand">
+                        <?= htmlspecialchars($product['brand']) ?>
+                    </p>
+                    <?php if (isset($product['color'])): ?>
+                    <p class="color">Color:
+                        <?= htmlspecialchars($product['color']) ?>
+                    </p>
+                    <?php echo "Product: " . $product['name'] . ", Color: " . ($product['color'] ?? 'None') . "<br>"; ?>
+                    <?php endif; ?>
+
+                    <form method="post">
+                        <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                        <button type="submit" name="add_to_cart">Add to Cart</button>
+                    </form>
+                </div>
                 <?php endforeach; ?>
             </div>
         </section>
     </main>
-    <?php include '../public/views/components/footer.html'; ?>
-    <script src="../public/assets/js/navbar.js"></script>
-    <script src="./category.js"></script>
+    <?php include './components/footer.html'; ?>
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/category.js"></script>
 </body>
+
 </html>

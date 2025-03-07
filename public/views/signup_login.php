@@ -72,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         <form id="signupForm" class="form" method="POST" action="">
             <div class="form-group">
-                <label for="firstName">First Name*</label>
-                <input type="text" id="firstName" name="UserName" placeholder="UserName" required>
+                <label for="firstName">Username*</label>
+                <input type="text" id="firstName" name="UserName" placeholder="Username" required>
             </div>
             <div class="form-group">
                 <label for="signupEmail">Email Address*</label>

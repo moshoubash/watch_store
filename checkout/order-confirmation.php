@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    header('Location: /watch_store/public/views/signup_login.php');
     exit;
 }
 
@@ -146,7 +146,7 @@ try {
         </div>
         
         <div class="action-buttons">
-            <a href="http://localhost/watch_store_clone/public/" class="home-button">
+            <a href="/watch_store/public/" class="home-button">
                 <i class="fas fa-home"></i> Back to Home Page
             </a>
         </div>
