@@ -48,6 +48,12 @@
               </tr>
             </thead>
             <tbody>
+              <?php if (isset($_GET['error'])) : ?>
+                <div class="alert alert-danger">
+                  <?php echo $_GET['error']; ?>
+                </div>
+              <?php endif; ?>
+              
               <?php foreach ($admins as $admin): ?>
               <tr>
                 <td><?= $admin['id'] ?></td>

@@ -3,9 +3,11 @@
 
     class AdminController{
         private $adminModel;
+        private $customerModel;
 
         public function __construct() {
             $this->adminModel = new Admin();
+            $this->customerModel = new Customer();
         }
 
         public function index() {
@@ -68,6 +70,15 @@
 
         public function delete() {
             $id = $_GET["id"];
+
+            $admins = $this->customerModel->getOrdersByCustomerId($id);
+            
+            if (count($admins) > 0) {
+                $error = "The Admin cannot be deleted because he has sensitive actions.";
+                header("Location: index.php?controller=admin&action=index&error=$error");
+                die();
+            }
+
             $this->adminModel->deleteAdmin($id);
             header("Location: index.php?controller=admin&action=index");
         }

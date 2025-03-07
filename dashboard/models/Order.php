@@ -80,6 +80,7 @@
             $query = "SELECT COUNT(*) as total_orders 
                       FROM " . $this->table . " 
                       WHERE MONTH(created_at) = :month";
+            
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":month", $month);
             $stmt->execute();

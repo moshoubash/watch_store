@@ -1,8 +1,6 @@
 <?php
-  // Start session if needed
   session_start();
 
-  // Include necessary files
   require_once 'config/database.php';
   require_once 'controllers/ProductController.php';
   require_once 'controllers/DashboardController.php';
