@@ -164,7 +164,7 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
         </section>
     </main>
     <?php include '../public/views/components/footer.html'; ?>
-    <script src="./category.js"></script>
     <script src="../public/assets/js/navbar.js"></script>
+    <script src="./category.js"></script>
 </body>
 </html>

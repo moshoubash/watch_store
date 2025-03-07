@@ -1,14 +1,19 @@
 <?php
- session_start(); 
+session_start();
 
-if (!isset($_SESSION['last_order_id'])) {
+if (!isset($_SESSION['user_id'])) {
+    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    exit;
+}
+
+if (!isset($_GET['order_id']) || empty($_GET['order_id'])) {
     header('Location: index.php');
     exit;
 }
 
-$order_id = $_SESSION['last_order_id'];
+$order_id = $_GET['order_id'];
 $user_id = $_SESSION['user_id'];
- 
+
 $host = 'localhost';
 $dbname = 'watch_store';
 $username = 'root';
@@ -26,9 +31,9 @@ $options = [
 try {
     $pdo = new PDO($dsn, $username, $password, $options);
     
-    // Get order details
+    // التحقق من أن الطلب ينتمي للمستخدم الحالي
     $orderStmt = $pdo->prepare('
-        SELECT o.*, u.name, u.email, u.street, u.city, u.state, u.postal_code, u.phone_number 
+        SELECT o.*, u.name, u.email 
         FROM orders o
         JOIN users u ON o.user_id = u.id
         WHERE o.id = ? AND o.user_id = ?
@@ -41,7 +46,7 @@ try {
         exit;
     }
     
-    // Get order items
+    // جلب تفاصيل الطلب
     $orderItemsStmt = $pdo->prepare('
         SELECT oi.*, p.name as product_name, p.image
         FROM order_items oi
@@ -51,223 +56,104 @@ try {
     $orderItemsStmt->execute([$order_id]);
     $orderItems = $orderItemsStmt->fetchAll();
     
-    // Calculate order totals
-    $subtotal = 0;
-    foreach ($orderItems as $item) {
-        $subtotal += $item['price'] * $item['quantity'];
-    }
-    
-    $tax = $subtotal * 0.10;
-    $shipping = 4.99;
-    $discount = $subtotal + $tax + $shipping - $order['total_price'];
-    $total = $order['total_price'];
-    
-    // Generate order number (can be customized according to your needs)
-    $orderNumber = 'WS-' . str_pad($order_id, 6, '0', STR_PAD_LEFT);
-    
-    // Format order date
-    $orderDate = date('F j, Y', strtotime($order['created_at']));
-    
-    // Clear the session order ID to prevent refreshing the page and seeing the same order
-    unset($_SESSION['last_order_id']);
-    
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./order-confirmation.css">
-    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="../checkout/order-confirmation.css">
+    <link rel="stylesheet" href="../public/assets/css/navbar.css">
+    <link rel="stylesheet" href="../public/assets/css/footer.css">
+    <title> Confirm-Order </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
 
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">W A T C H</div>
-        <nav>
-            <a href="index.php">Categories</a>
-            <a href="#">Collections</a>
-            <a href="#">New Arrivals</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact Us</a>
-        </nav>
-        <div class="icons">
-            <span><i class="fa-solid fa-magnifying-glass"></i></span>
-            <span><i class="fa-solid fa-cart-shopping"></i></span>
-        </div>
-    </header>
+    <?php include '../public/views/components/navbar.html'; ?>
     
-    <div class="container">
-        <div class="confirmation-container">
-            <div class="confirmation-header">
-                <div class="checkmark">✓</div>
-                <h1 class="confirmation-title">Thank You for Your Order!</h1>
-                <p class="confirmation-subtitle">Your order has been received and is being processed.</p>
-                <p class="confirmation-subtitle">A confirmation email has been sent to <?php echo htmlspecialchars($order['email']); ?></p>
-            </div>
+    <div class="confirmation-container">
+        <div class="success-icon">
+        <!--     <i class="fas fa-check-circle" ></i> -->
+             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp9zCTxTTeD55Fa45aBsTOmGYMSoKLr86kCQ&s" alt="" width="100" height="100">
+        </div>
+        
+        <div class="confirmation-header">
+            <h1>Your request has been successfully received!</h1>
+            <p>Thank you for shopping with us. Your order will be shipped soon.</p>
+        </div>
+        
+        <div class="order-details">
+            <h2>Order Details</h2>
             
             <div class="order-info">
-                <div class="order-info-header">
-                    <div>
-                        <div class="detail-row">
-                            <span class="detail-label">Order Number:</span>
-                            <span><?php echo $orderNumber; ?></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Order Date:</span>
-                            <span><?php echo $orderDate; ?></span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="detail-row">
-                            <span class="detail-label">Order Status:</span>
-                            <span class="order-status"><?php echo ucfirst($order['status']); ?></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Payment Method:</span>
-                            <span>Credit Card</span>
-                        </div>
-                    </div>
+                <div>
+                    <p><span class="info-label">Order number:</span> #<?php echo $order_id; ?></p>
+                    <p><span class="info-label">Request Date:</span> <?php echo date('d/m/Y', strtotime($order['created_at'])); ?></p>
+                    <p><span class="info-label">Request Status:</span> <span style="color: var(--success-color);">The order was successful</span></p>
+                </div>
+                <div>
+                    <p><span class="info-label">Customer Name:</span> <?php echo htmlspecialchars($order['name']); ?></p>
+                    <p><span class="info-label">Email:</span> <?php echo htmlspecialchars($order['email']); ?></p>
                 </div>
             </div>
             
-            <div class="info-grid">
-                <div class="shipping-info">
-                    <h3 class="section-title">Shipping Information</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Name:</span>
-                        <span><?php echo htmlspecialchars($order['name']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Address:</span>
-                        <span><?php echo htmlspecialchars($order['street']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">City:</span>
-                        <span><?php echo htmlspecialchars($order['city']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">State:</span>
-                        <span><?php echo htmlspecialchars($order['state']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Zip Code:</span>
-                        <span><?php echo htmlspecialchars($order['postal_code']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Phone:</span>
-                        <span><?php echo htmlspecialchars($order['phone_number']); ?></span>
-                    </div>
-                </div>
-                
-                <div class="billing-info">
-                    <h3 class="section-title">Billing Information</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Name:</span>
-                        <span><?php echo htmlspecialchars($order['name']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Address:</span>
-                        <span><?php echo htmlspecialchars($order['street']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">City:</span>
-                        <span><?php echo htmlspecialchars($order['city']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">State:</span>
-                        <span><?php echo htmlspecialchars($order['state']); ?></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Zip Code:</span>
-                        <span><?php echo htmlspecialchars($order['postal_code']); ?></span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="order-details">
-                <h3 class="section-title">Order Details</h3>
+            <h2>Products</h2>
+            <div class="items-grid">
                 <?php foreach ($orderItems as $item): ?>
-                    <div class="product-item">
-                        <div class="product-image" style="background-image: url('<?php echo htmlspecialchars($item['image'] ?? 'img/placeholder.jpg'); ?>')"></div>
-                        <div class="product-details">
-                            <div class="product-name"><?php echo htmlspecialchars($item['product_name']); ?></div>
-                            <div class="product-quantity">Quantity: <?php echo htmlspecialchars($item['quantity']); ?></div>
+                <div class="item-card">
+                    <div class="item-image" style="background-image: url('<?php echo htmlspecialchars($item['image'] ?? '../public/assets/img/placeholder.jpg'); ?>')"></div>
+                    <div class="item-details">
+                        <div class="item-name"><?php echo htmlspecialchars($item['product_name']); ?></div>
+                        <div class="item-qty-price">
+                            <span>quantity: <?php echo $item['quantity']; ?></span>
+                            <span>price: <?php echo number_format($item['price'], 2); ?> $</span>
                         </div>
-                        <div class="product-price"><?php echo number_format($item['price'], 2); ?> $</div>
                     </div>
+                </div>
                 <?php endforeach; ?>
             </div>
             
             <div class="order-summary">
-                <h3 class="section-title">Order Summary</h3>
                 <div class="summary-row">
-                    <div>Subtotal</div>
-                    <div><?php echo number_format($subtotal, 2); ?> $</div>
-                </div>
-                <?php if ($discount > 0): ?>
-                    <div class="summary-row">
-                        <div>Discount</div>
-                        <div>-<?php echo number_format($discount, 2); ?> $</div>
-                    </div>
-                <?php endif; ?>
-                <div class="summary-row">
-                    <div>Shipping</div>
-                    <div><?php echo number_format($shipping, 2); ?> $</div>
+                    <div>Total Products:</div>
+                    <div><?php 
+                        $subtotal = array_sum(array_map(function($item) { 
+                            return $item['price'] * $item['quantity']; 
+                        }, $orderItems)); 
+                        echo number_format($subtotal, 2); 
+                    ?> $</div>
                 </div>
                 <div class="summary-row">
-                    <div>Tax</div>
-                    <div><?php echo number_format($tax, 2); ?> $</div>
+                    <div>Tax:</div>
+                    <div><?php echo number_format($subtotal * 0.10, 2); ?> $</div>
                 </div>
                 <div class="summary-row">
-                    <div>Total</div>
-                    <div><?php echo number_format($total, 2); ?> $</div>
+                    <div>Shipping fees:</div>
+                    <div>4.99 $</div>
+                </div>
+                <div class="summary-row">
+                    <div>total:</div>
+                    <div><?php echo number_format($order['total_price'], 2); ?> $</div>
                 </div>
             </div>
-            
-            <div class="estimated-delivery">
-                Estimated delivery: <?php echo date('F j, Y', strtotime('+5 days')); ?> - <?php echo date('F j, Y', strtotime('+10 days')); ?>
-            </div>
-            
-            <div class="thank-you-message">
-                <p>We appreciate your business and hope you enjoy your purchase!</p>
-            </div>
-            
-            <a href="index.php" class="btn-continue">Continue Shopping</a>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="http://localhost/watch_store_clone/public/" class="home-button">
+                <i class="fas fa-home"></i> Back to Home Page
+            </a>
         </div>
     </div>
     
-    <!-- Footer -->
-    <footer>
-        <div>
-            <h3>LuxTime</h3>
-            <p>Your trusted source for quality watches since 2025.</p>
-        </div>
-        <div>
-            <h3>Quick Links</h3>
-            <a href="index.php">Home</a>
-            <a href="#">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </div>
-        <div>
-            <h3>Contact</h3>
-            <p><i class="fa-solid fa-phone"></i> +123 456 789</p>
-            <p><i class="fa-solid fa-envelope"></i> info@store.com</p>
-            <p><i class="fa-solid fa-location-dot"></i> 123 Store Street, City</p>
-        </div>
-        <div>
-            <h3>Follow Us</h3>
-            <span><i class="fa-brands fa-facebook"></i> Facebook</span>
-            <span><i class="fa-brands fa-twitter"></i> Twitter</span>
-            <span><i class="fa-brands fa-instagram"></i> Instagram</span>
-        </div>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <?php include '../public/views/components/footer.html'; ?>
+    <script src="../public/assets/js/navbar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 </html>

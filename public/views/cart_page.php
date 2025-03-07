@@ -1,22 +1,29 @@
 <?php
-// Include necessary files
 require_once '../config/cart_con.php';
 require_once '../models/Cart.php';
 require_once '../models/Product.php';
 
-
 // Initialize session and database connection
 initSession();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
 $conn = connectDB();
 
-// Create cart and product instances
-$cart = new Cart($conn);
+// Create cart instance with user_id
+$cart = new Cart($conn, $user_id);
 $product = new Product($conn);
+
+// Get cart count from the Cart class
+$cart_count = $cart->getCartCount();
 
 // Page title
 $page_title = 'Shopping Cart';
-
-// Include header
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,9 +40,10 @@ $page_title = 'Shopping Cart';
 <?php include './components/navbar.html'; ?>
 <div class="container cart-container">
     <div class="cart-items">
-        <h2>Shopping Cart (<?php echo count($_SESSION['cart']); ?> items)</h2>
-        
+        <h2>Shopping Cart (<?php echo $cart_count; ?> items)</h2>
+       
         <?php
+        // Get cart items from database
         $cart_items = $cart->getCartItems();
         
         if (empty($cart_items)): 
@@ -47,10 +55,12 @@ $page_title = 'Shopping Cart';
         <?php 
         else:
             foreach ($cart_items as $item):
+                // Ensure we have all the necessary product information
+                $product_id = $item['product_id'] ?? $item['id'] ?? 0;
         ?>
             <div class="item">
                 <div class="item-image">
-                    <?php if ($item['image']): ?>
+                    <?php if (isset($item['image']) && $item['image']): ?>
                         <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
                     <?php else: ?>
                         <div class="placeholder-image">
@@ -60,25 +70,27 @@ $page_title = 'Shopping Cart';
                 </div>
                 
                 <div class="item-details">
-                    <div class="item-category"><?php echo htmlspecialchars($item['category']); ?></div>
+                    <div class="item-category"><?php echo htmlspecialchars($item['category'] ?? ''); ?></div>
                     <div class="item-title"><?php echo htmlspecialchars($item['name']); ?></div>
+                    <?php if (isset($item['color']) && isset($item['size'])): ?>
                     <div class="item-meta">
                         <?php echo htmlspecialchars($item['color']); ?> / 
                         <?php echo htmlspecialchars($item['size']); ?>
                     </div>
+                    <?php endif; ?>
                     
                     <form action="cart_controller.php" method="post" class="quantity-control">
                         <input type="hidden" name="action" value="update">
-                        <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                        <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                         
                         <button type="submit" class="quantity-btn" onclick="this.form.quantity.value = Math.max(1, parseInt(this.form.quantity.value) - 1); this.form.submit();">-</button>
                         
                         <input type="text" name="quantity" class="quantity-input" 
                                value="<?php echo $item['quantity']; ?>" 
                                min="1" 
-                               max="<?php echo $item['stock']; ?>">
+                               max="<?php echo $item['stock'] ?? 10; ?>">
                         
-                        <button type="submit" class="quantity-btn" onclick="this.form.quantity.value = Math.min(<?php echo $item['stock']; ?>, parseInt(this.form.quantity.value) + 1); this.form.submit();">+</button>
+                        <button type="submit" class="quantity-btn" onclick="this.form.quantity.value = Math.min(<?php echo $item['stock'] ?? 10; ?>, parseInt(this.form.quantity.value) + 1); this.form.submit();">+</button>
                     </form>
                 </div>
                 
@@ -88,7 +100,7 @@ $page_title = 'Shopping Cart';
                 
                 <form action="cart_controller.php" method="post" class="remove-form">
                     <input type="hidden" name="action" value="remove">
-                    <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                    <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                     <button type="submit" class="remove-item">&times;</button>
                 </form>
             </div>
@@ -129,8 +141,7 @@ $page_title = 'Shopping Cart';
             <span>$<?php echo number_format($total, 2); ?></span>
         </div>
         
-        <form action="cart_controller.php" method="post">
-            <input type="hidden" name="action" value="checkout">
+        <form action="/watch_store_clone/checkout/checkout.php" method="get">
             <button type="submit" class="checkout-btn">Proceed to Checkout</button>
         </form>
         
@@ -142,9 +153,8 @@ $page_title = 'Shopping Cart';
     <?php endif; ?>
 </div>
 
-
-</document_content>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../assets/js/navbar.js"></script>
-    <?php include './components/footer.html'; ?>
+<script src="../assets/js/navbar.js"></script>
+<?php include './components/footer.html'; ?>
 </body>
+</html>
