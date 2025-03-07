@@ -1,8 +1,5 @@
 <?php
-
-require_once '../config/database.php';
-
-class Users {
+class User {
     private $conn;
     private $table = 'users';
 
@@ -66,7 +63,7 @@ class Users {
         return false;
     }
 
-    public function findByemail() {
+    public function findByEmail() {
         $query = "SELECT * FROM " . $this->table . " WHERE email = :email";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $this->email);
