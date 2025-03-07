@@ -3,13 +3,14 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+$user_id = $_SESSION['user_id'];
 
-
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['last_order_id'])) {
+    header('Location: index.php');
     exit;
 }
 
+$order_id = $_SESSION['last_order_id'];
 $user_id = $_SESSION['user_id'];
 
 function processOrder($pdo, $user_id, $payment_method) {

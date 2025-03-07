@@ -4,17 +4,25 @@
 // For demonstration, let's assume a user ID is available
 // $userId = 15; // Replace with actual user ID from your authentication system
 
-session_start();
+
 include '../../config/connectt.php';
 
-// Store user ID in session
-$_SESSION['user_id'] = 4; // Replace with your actual authentication system
-$userId = $_SESSION['user_id'];
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+
+    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
 
 try {
     // Fetch user information
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->execute([$userId]);
+    $stmt->execute([$user_id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$user) {
@@ -26,7 +34,7 @@ try {
     
     // Fetch payment history
     $paymentStmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
-    $paymentStmt->execute([$userId]);
+    $paymentStmt->execute([$user_id]);
     $orders = $paymentStmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch (PDOException $e) {
@@ -50,8 +58,14 @@ try {
         <div class="profile_img" style="background-image: url('<?php echo htmlspecialchars(($user['image'] != "") ? $user['image'] : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'); ?>');"></div>
 
             <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
-            <div class="edit_btn"><p><a href="http://localhost/watch_store_clone/public/views/profile_page/pro_edit.php" style="text-decoration: none; color: white;">Edit</a></p></div>
+            <div>
+            <div class="edit_btn"><a href="http://localhost/watch_store_clone/public/views/profile_page/pro_edit.php" style="text-decoration: none; color: white;">Edit Profile</a></div>
+
+            <div class="edit_btn"><a href="http://localhost/watch_store_clone/public/" style="text-decoration: none; color: white;">Home page</a></div>
+
+            <div class="edit_btn"><a href="http://localhost/watch_store_clone/public/views/logout.php" style="text-decoration: none; color: white;"> logout </a></div>
         </div>
+    </div>
 
         <div class="content-container">
             <div class="user_info">

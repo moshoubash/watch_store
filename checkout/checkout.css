@@ -15,31 +15,6 @@ body {
     padding: 0 15px;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    padding: 15px 50px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-header .logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-header nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: black;
-}
-
-header .icons span {
-    margin-left: 15px;
-    cursor: pointer;
-}
-
 .secure-badge {
     display: flex;
     align-items: center;
@@ -227,28 +202,6 @@ input[type="password"] {
 .btn-complete:hover {
     background-color: #3e8e41;
 }
-
-/* Footer */
-.footer {
-    background-color: #fff;
-    padding: 15px 0;
-    border-top: 1px solid #eee;
-    margin-top: 40px;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-links a {
-    margin-left: 15px;
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
-}
-
 .secure-payment {
     display: flex;
     align-items: center;
@@ -276,20 +229,7 @@ input[type="password"] {
     border-radius: 4px;
     margin-bottom: 20px;
 }
-footer {
-    display: flex;
-    justify-content: space-around;
-    background: #222;
-    color: white;
-    padding: 20px;
-    margin-top: 20px;
-}
 
-footer div {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-}
 /* Media Queries for Responsiveness */
 @media (max-width: 992px) {
     .checkout-container {
@@ -297,9 +237,7 @@ footer div {
         gap: 20px;
     }
     
-    footer div {
-        width: 45%;
-    }
+
 }
 
 @media (max-width: 768px) {
@@ -333,10 +271,7 @@ footer div {
 }
 
 @media (max-width: 576px) {
-    footer div {
-        width: 100%;
-    }
-    
+
     .product-item {
         flex-direction: column;
     }

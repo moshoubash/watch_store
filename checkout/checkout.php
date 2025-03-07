@@ -4,7 +4,7 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
 
-    header('Location: login.php');
+    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
     exit;
 }
 
@@ -126,26 +126,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./checkout.css">
+    <link rel="stylesheet" href="../public/assets/css/navbar.css">
+    <link rel="stylesheet" href="../public/assets/css/footer.css">
     <title>checkout page</title>
 
 </head>
 <body>
+<?php include '../public/views/components/navbar.html'; ?>
    
-    <header>
-        <div class="logo">W A T C H</div>
-        <nav>
-            <a href="#">Categories</a>
-            <a href="#">Collections</a>
-            <a href="#">New Arrivals</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact Us</a>
-        </nav>
-        <div class="icons">
-            <span><i class="fa-solid fa-magnifying-glass"></i></span>
-            <span><i class="fa-solid fa-cart-shopping"></i></span>
-        </div>
-    </header>
-
     <div class="container">
         <?php if (isset($error_message)): ?>
             <div class="error-message"><?php echo $error_message; ?></div>
@@ -267,35 +255,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
     </div>
-    
-   
-    <footer>
-        <div>
-            <h3>LuxTime</h3>
-            <p>Your trusted source for quality watches since 2025.</p>
-        </div>
-        <div>
-            <h3>Quick Links</h3>
-            <a href="#">Home</a>
-            <a href="#">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </div>
-        <div>
-            <h3>Contact</h3>
-            <p><i class="fa-solid fa-phone"></i> +123 456 789</p>
-            <p><i class="fa-solid fa-envelope"></i> info@store.com</p>
-            <p><i class="fa-solid fa-location-dot"></i> 123 Store Street, City</p>
-        </div>
-        <div>
-            <h3>Follow Us</h3>
-            <span><i class="fa-brands fa-facebook"></i> Facebook</span>
-            <span><i class="fa-brands fa-twitter"></i> Twitter</span>
-            <span><i class="fa-brands fa-instagram"></i> Instagram</span>
-        </div>
-    </footer>
-
-  
+    <?php include '../public/views/components/footer.html'; ?>
+    <script src="../public/assets/js/navbar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
     <script>

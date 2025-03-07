@@ -5,8 +5,8 @@ include '../../config/connectt.php';
 if (isset($_SESSION['user_id']) && is_numeric($_SESSION['user_id'])) {
     $userId = (int)$_SESSION['user_id'];
 } else {
-    // Redirect to login page if no valid session
-    header("Location: login.php");
+    
+    header("Location:  http://localhost/watch_store_clone/public/views/signup_login.php");
     exit;
 }
 
@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($result) {
             $successMessage = 'Information updated successfully';
+            header("Location: http://localhost/watch_store_clone/public/views/profile_page/profile.php");
         } else {
             $errorMessage = 'Error updating information';
         }
