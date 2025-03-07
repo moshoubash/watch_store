@@ -1,5 +1,5 @@
 <?php
-require_once '../config/con.php';
+require_once '../config/connectt.php';
 
 
 
