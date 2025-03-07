@@ -3,7 +3,7 @@
   include('../config/connectt.php');
 
   // Get the watch details from the database
-  $watchId = 4;
+  $watchId = $_GET['id'] ?? 1;
   $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
   $stmt->execute([$watchId]);
   $watch = $stmt->fetch();

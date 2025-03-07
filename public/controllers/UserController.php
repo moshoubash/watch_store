@@ -1,33 +1,30 @@
 <?php
-require_once '../config/database.php';
-require_once '../models/User.php';
-require_once '../controllers/UserController.php';
 class UserController {
     private $db;
-    private $users;
+    private $user;
 
     public function __construct($db) {
         $this->db = $db;
-        $this->users = new users($db);
+        $this->user = new User($db);
     }
 
     public function register($data) {
-        $this->users->name = $data['name'];
-        $this->users->email = $data['email'];
-        $this->users->country = $data['country'];
-        $this->users->state = $data['state'];
-        $this->users->city = $data['city'];
-        $this->users->street = $data['street'];
-        $this->users->postal_code = $data['postal_code'];
-        $this->users->phone_number = $data['phone_number'];
-        $this->users->password = $data['password'];
-        $this->users->role = 'users';
+        $this->user->name = $data['UserName'];
+        $this->user->email = $data['Email'];
+        $this->user->country = $data['country'];
+        $this->user->state = $data['state'];
+        $this->user->city = $data['city'];
+        $this->user->street = $data['street_address'];
+        $this->user->postal_code = $data['zip'];
+        $this->user->phone_number = $data['pho_num'];
+        $this->user->password = $data['password'];
+        $this->user->role = 'user';
 
-        if ($this->users->findByemail()->rowCount() > 0) {
-            return ['error' => 'email already exists'];
+        if ($this->user->findByEmail()->rowCount() > 0) {
+            return ['error' => 'Email already exists'];
         }
 
-        if ($this->users->create()) {
+        if ($this->user->create()) {
             return ['success' => 'New record created successfully'];
         }
 
@@ -35,26 +32,25 @@ class UserController {
     }
 
     public function login($data) {
-        $this->users->email = $data['email'];
-        $stmt = $this->users->findByemail();
-        $users = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->user->email = $data['Email'];
+        $stmt = $this->user->findByEmail();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$users || !password_verify($data['password'], $users['password'])) {
+        if (!$user || !password_verify($data['password'], $user['password'])) {
             return ['error' => 'Invalid email or password'];
         }
 
-        $_SESSION['users_id'] = $users['id'];
-        $_SESSION['email'] = $users['email'];
-        $_SESSION['name'] = $users['name'];
-        $_SESSION['role'] = $users['role'];
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['name'] = $user['name'];
+        $_SESSION['role'] = $user['role'];
 
-        if ($users['role'] === 'superadmin') {
-            header("Location: ../superadmin_dashboard.php");
-        } elseif ($users['role'] === 'admin') {
-            header("Location: ../admin_dashboard.php");
+        if ($user['role'] === 'superadmin') {
+            header("Location: superadmin_dashboard.php");
+        } elseif ($user['role'] === 'admin') {
+            header("Location: admin_dashboard.php");
         } else {
-            // header("Location: ../index.php");
-            echo"<script>alert('Login Successful')</script>";
+            header("Location: http://localhost/watch_store_clone/public/");
         }
         exit();
     }
