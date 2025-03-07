@@ -8,7 +8,7 @@ initSession();
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: http://localhost/watch_store_clone/public/views/signup_login.php');
+    header('Location: signup_login.php');
     exit;
 }
 
@@ -50,7 +50,7 @@ $page_title = 'Shopping Cart';
         ?>
             <div class="empty-cart">
                 <p>Your cart is empty.</p>
-                <p>Continue <a href="http://localhost/watch_store_clone/public/">shopping</a> to add items.</p>
+                <p>Continue <a href="/watch_store/public">shopping</a> to add items.</p>
             </div>
         <?php 
         else:
@@ -141,7 +141,7 @@ $page_title = 'Shopping Cart';
             <span>$<?php echo number_format($total, 2); ?></span>
         </div>
         
-        <form action="/watch_store_clone/checkout/checkout.php" method="get">
+        <form action="/watch_store/checkout/checkout.php" method="get">
             <button type="submit" class="checkout-btn">Proceed to Checkout</button>
         </form>
         

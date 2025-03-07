@@ -6,7 +6,7 @@ if (isset($_SESSION['user_id']) && is_numeric($_SESSION['user_id'])) {
     $userId = (int)$_SESSION['user_id'];
 } else {
     
-    header("Location:  http://localhost/watch_store_clone/public/views/signup_login.php");
+    header("Location:  /watch_store/public/views/signup_login.php");
     exit;
 }
 
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($result) {
             $successMessage = 'Information updated successfully';
-            header("Location: http://localhost/watch_store_clone/public/views/profile_page/profile.php");
+            header("Location: profile.php");
         } else {
             $errorMessage = 'Error updating information';
         }
@@ -281,9 +281,8 @@ try {
                 </div>
                 
                 <div class="buttons">
-                <a href="http://localhost/watch_store_clone/public/views/profile_page/profile.php" class="cancel-btn">Cancel</a>
+                    <a href="profile.php" class="cancel-btn">Cancel</a>
                     <button type="submit" class="submit-btn">Save Changes</button>
-                    
                 </div>
             </form>
         </div>

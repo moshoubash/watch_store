@@ -131,14 +131,11 @@ class Cart {
             $stmt = $this->conn->prepare("
                 SELECT ci.product_id, ci.quantity, 
                        p.name, p.price, p.image, 
-                       c.name AS category, 
-                       d.discount_percentage
+                       c.name AS category
                 FROM cart_items ci
                 JOIN cart cart ON ci.cart_id = cart.id
                 JOIN products p ON ci.product_id = p.id
                 LEFT JOIN categories c ON p.category_id = c.id
-                LEFT JOIN discounts d ON p.id = d.product_id 
-                    AND CURRENT_TIMESTAMP BETWEEN d.start_date AND d.end_date
                 WHERE cart.user_id = :user_id
             ");
             $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
