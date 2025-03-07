@@ -1,16 +1,11 @@
 <?php
-// search.php
-
-// Include database connection
-include '../config/database.php';
-// Get the search keyword from the query parameter
-$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
-$pdo = new Database();
-// Fetch results from the database based on the keyword
-$query = "SELECT * FROM watches WHERE name LIKE :keyword";
-$stmt = $conn->prepare($query);
-$stmt->execute(['keyword' => '%' . $keyword . '%']);
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    include '../config/database.php';
+    $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+    $pdo = new Database();
+    $query = "SELECT * FROM products WHERE name LIKE :keyword";
+    $stmt = $conn->prepare($query);
+    $stmt->execute(['keyword' => '%' . $keyword . '%']);
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>

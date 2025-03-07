@@ -29,6 +29,13 @@ $query = "SELECT p.*, ws.strap_type, ws.water_resistant, ws.material, ws.type, w
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    session_start();
+    
+    if (!isset($_SESSION['user_id'])) {
+        echo "User not logged in.";
+        exit();
+    }
+    
     $product_id = $_POST['product_id'];
     $user_id = $_SESSION['user_id'];
     $quantity = 1;
