@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     session_start();
     
     if (!isset($_SESSION['user_id'])) {
-        echo "User not logged in.";
+        header("Location: /watch_store/public/views/signup_login.php");
         exit();
     }
     
@@ -133,45 +133,36 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
             <button class="reset" id="resetFilters">Reset Filters</button>
         </aside>
         <section class="products">
-            <h2>Luxury Watches
-                <?= $categories !== 'all' ? ' - ' . ucfirst($categories) : '' ?>
-            </h2>
-            <p>Explore our exclusive collection of high-end luxury watches crafted with precision and elegance.</p>
+            <div class="top-header">
+                <h2>Luxury Watches
+                    <?= $categories !== 'all' ? ' - ' . ucfirst($categories) : '' ?>
+                </h2>
+                <p>Explore our exclusive collection of high-end luxury watches crafted with precision and elegance.</p>
+            </div>
             <div class="product-list">
-                <?php foreach ($products as $product): ?>
-                <div class="card" data-brand="<?= htmlspecialchars($product['brand']) ?>"
-                    data-price="<?= $product['price'] ?>" data-color="<?= htmlspecialchars($product['color'] ?? '') ?>">
+                <?php if (count($products) > 0): ?>
+                    <?php foreach ($products as $product): ?>
+                        <div class="card" data-brand="TIMEX" data-price="199.00" data-color="Silver">
+                            <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-link">
+                                <img src="/watch_store/dashboard/assets/productImages/<?= htmlspecialchars($product['image'] ?? 'placeholder.jpg') ?>" alt="Giorgio Galli S2Ti Swiss Made Automatic 38mm">
+                            </a>
 
-                    <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-link">
-                        <img src="<?= htmlspecialchars($product['image']) ?>"
-                            alt="<?= htmlspecialchars($product['name']) ?>" width="200" height="200">
-                    </a>
+                            <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-title">
+                                <h3><?= $product['name'] ?></h3>
+                            </a>
 
-                    <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-title">
-                        <h3>
-                            <?= htmlspecialchars($product['name']) ?>
-                        </h3>
-                    </a>
+                            <p class="size"><? $product['category_name'] ?></p>
+                            <p class="price">$<?= $product['price'] ?></p>
 
-                    <p class="price">$
-                        <?= number_format($product['price'], 2) ?>
-                    </p>
-                    <p class="brand">
-                        <?= htmlspecialchars($product['brand']) ?>
-                    </p>
-                    <?php if (isset($product['color'])): ?>
-                    <p class="color">Color:
-                        <?= htmlspecialchars($product['color']) ?>
-                    </p>
-                    <?php echo "Product: " . $product['name'] . ", Color: " . ($product['color'] ?? 'None') . "<br>"; ?>
-                    <?php endif; ?>
-
-                    <form method="post">
-                        <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                        <button type="submit" name="add_to_cart">Add to Cart</button>
-                    </form>
-                </div>
-                <?php endforeach; ?>
+                            <form method="post">
+                                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                <button type="submit" name="add_to_cart">Add to Cart</button>
+                            </form>
+                        </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                    <p>No results found.</p>
+                <?php endif; ?>
             </div>
         </section>
     </main>
