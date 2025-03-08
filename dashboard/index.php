@@ -32,6 +32,6 @@
           echo "Action not found!";
       }
   } else {
-      echo "Controller not found!";
+      header("Location: /watch_store/public");
   }
 ?>

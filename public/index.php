@@ -15,9 +15,9 @@
 <body>
     <?php include 'views/components/navbar.html'; ?>
     <?php include 'views/components/hero.html'; ?>
-    <?php include 'views/components/featured.html'; ?>
+    <?php include 'views/components/featured.php'; ?>
     <?php include 'views/components/collections.html'; ?>
-    <?php include 'views/components/newArrival.html'; ?>
+    <?php include 'views/components/newArrival.php'; ?>
     <?php include 'views/components/aboutSection.html'; ?>
     <?php include 'views/components/footer.html'; ?>
 
