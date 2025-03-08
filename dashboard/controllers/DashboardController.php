@@ -11,13 +11,15 @@
             $totalSales = $orderModel->getTotalSales();
             $totalCustomers = $customers->getTotalCustomers();
 
-            $product1Sales = $productModel->getProductSales(4);
-            $product2Sales = $productModel->getProductSales(5);
-            $product3Sales = $productModel->getProductSales(7);
+            $topProducts = $productModel->getTopThreeSoldProducts();
 
-            $product1Name = $productModel->getProductById(88)['name'];
-            $product2Name = $productModel->getProductById(89)['name'];
-            $product3Name = $productModel->getProductById(90)['name'];
+            $product1Sales = $topProducts[0]['total_quantity'];
+            $product2Sales = $topProducts[1]['total_quantity'];
+            $product3Sales = $topProducts[2]['total_quantity'];
+
+            $product1Name = $topProducts[0]['name'];
+            $product2Name = $topProducts[1]['name'];
+            $product3Name = $topProducts[2]['name'];
 
             $ordersMonth1 = $orderModel->getOrdersByMonth(1);
             $ordersMonth2 = $orderModel->getOrdersByMonth(2);

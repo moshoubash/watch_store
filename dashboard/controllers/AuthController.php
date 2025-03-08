@@ -8,10 +8,12 @@
             $this->adminModel = new Admin();
         }
 
-        public function logout() {
-            session_start();
-            session_destroy();
-            header("Location: index.php?controller=auth&action=login");
-        }
+        // public function logout() {
+        //     session_start(); 
+        //     session_unset(); 
+        //     session_destroy(); 
+        //     header("Location: /watch_store/public/views/signup_login.php");
+        //     exit();
+        // }
     }
 ?>

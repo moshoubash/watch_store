@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         console.log("Selected color:", selectedColor);
+        
         productCards.forEach(card => {
             const color = card.getAttribute('data-color');
             console.log("Card color:", color);

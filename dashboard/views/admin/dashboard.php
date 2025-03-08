@@ -19,16 +19,16 @@
 <body>
   <div class="wrapper">
     <!-- Sidebar -->
-    <?php require_once "views/layouts/components/sidebar.html"; ?>
+    <?php require_once "views/layouts/components/sidebar.php"; ?>
 
     <div class="main-panel">
       <div class="main-header">
         <div class="main-header-logo">
           <!-- Logo Header -->
-          <?php require_once "views/layouts/components/logoheader.html"; ?>
+          <?php require_once "views/layouts/components/logoheader.php"; ?>
         </div>
         <!-- Navbar Header -->
-        <?php require_once "views/layouts/components/navbar.html"; ?>
+        <?php require_once "views/layouts/components/navbar.php"; ?>
       </div>
 
       <!-- Main Content -->
