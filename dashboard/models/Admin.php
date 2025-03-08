@@ -104,5 +104,37 @@
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);
         }
+
+        public function updateSettings($data){
+            $query = "SELECT COUNT(*) as count 
+                      FROM " . $this->table . " 
+                      WHERE email = :email";
+                      
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result['count'] > 0) {
+                header("Location: index.php?controller=admin&action=settings&error=email_exists&id=" . $data['id']);
+                exit();
+            }
+            
+            $query = "UPDATE " . $this->table . " 
+                    SET name = :name,
+                        email = :email, 
+                        role = :role, 
+                        phone_number = :phone_number, 
+                        country = :country, 
+                        city = :city, 
+                        street = :street, 
+                        state = :state, 
+                        postal_code = :postal_code,
+                        password = :password
+                    WHERE id = :id";
+            
+            $stmt = $this->conn->prepare($query);
+            return $stmt->execute($data);
+        }
     }
 ?>

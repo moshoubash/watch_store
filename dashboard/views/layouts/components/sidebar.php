@@ -4,7 +4,7 @@
     <div class="logo-header" data-background-color="dark">
       <a href="index.php?controller=dashboard&action=index" class="logo">
         <img
-          src="assets/img/dash-logo.png"
+          src="<?php echo ($_SESSION['role'] == 'superadmin') ? 'assets/img/superadmin.png' : 'assets/img/dash-logo.png'; ?>"
           alt="navbar brand"
           class="navbar-brand"
           height="20"
@@ -152,14 +152,14 @@
           <div class="collapse" id="tables">
             <ul class="nav nav-collapse">
               <li>
-                <a href="index.php?controller=admin&action=index">
-                  <span class="sub-item">Admins Data</span>
-                </a>
+          <a href="index.php?controller=admin&action=index">
+            <span class="sub-item">Admins Data</span>
+          </a>
               </li>
               <li>
-                <a href="index.php?controller=admin&action=create">
-                  <span class="sub-item">Create new Admin</span>
-                </a>
+          <a href="index.php?controller=admin&action=create">
+            <span class="sub-item">Create new Admin</span>
+          </a>
               </li>
             </ul>
           </div>

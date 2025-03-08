@@ -1,3 +1,6 @@
+<?php 
+    $user_id = $_SESSION['user_id'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,29 +20,37 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
-        <?php require_once "views/layouts/components/sidebar.html"; ?>
+        <?php require_once "views/layouts/components/sidebar.php"; ?>
 
         <div class="main-panel">
             <div class="main-header">
                 <div class="main-header-logo">
                     <!-- Logo Header -->
-                    <?php require_once "views/layouts/components/logoheader.html"; ?>
+                    <?php require_once "views/layouts/components/logoheader.php"; ?>
                 </div>
                 <!-- Navbar Header -->
-                <?php require_once "views/layouts/components/navbar.html"; ?>
+                <?php require_once "views/layouts/components/navbar.php"; ?>
             </div>
 
             <!-- Main Content -->
             <div class="container">
                 <div class="page-inner">
-                <h1>Edit admin</h1>
-                <form method="POST" action="index.php?controller=admin&action=update">
+                <h1>Admin settings</h1>
+                <?php if (isset($_GET['error'])) : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php
+                            if ($_GET['error'] === 'email_exists') {
+                                echo "Email already exists!";
+                            }
+                        ?>
+                    </div>
+                <?php endif; ?>
+                <form method="POST" action="index.php?controller=admin&action=updateSettings" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?= htmlspecialchars($admin['id']) ?>">
 
                     <div class="row">
                     <div class="col-md-12">
                         <hr>
-                        <div class="mb-3">
                         <label class="form-label">Name:</label>
                         <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($admin['name']) ?>"
                             required>
@@ -62,10 +73,8 @@
                         <input type="text" name="phone_number" class="form-control"
                             value="<?= htmlspecialchars($admin['phone_number']) ?>">
                         </div>
-                        <div class="mb-3">
-                        <label class="form-label">Password:</label>
-                        <input type="password" name="password" class="form-control" value="<?= htmlspecialchars($admin['password']) ?>">
-                        </div>
+                        
+                        <input type="hidden" name="password" value="<?= htmlspecialchars($admin['password']) ?>">
 
                         <h2>Address Details</h2>
                         <hr>
@@ -94,8 +103,10 @@
                             value="<?= htmlspecialchars($admin['postal_code']) ?>">
                         </div>
 
+                        <div>
                         <button type="submit" class="btn btn-primary px-4">Update admin</button>
-                        <a href="index.php?controller=admin&action=index" class="btn btn-danger">Cancel</a>
+                        <a href="/watch_store/dashboard" class="btn btn-danger">Cancel</a>
+                        </div>
                     </div>
                     </div>
                 </form>

@@ -2,7 +2,7 @@
     <div class="logo-header" data-background-color="dark">
         <a href="index.php?controller=dashboard&action=index" class="logo">
             <img
-                src="assets/img/dash-logo.png"
+                src="<?php echo ($_SESSION['role'] == 'superadmin') ? 'assets/img/superadmin.png' : 'assets/img/dash-logo.png'; ?>"
                 alt="navbar brand"
                 class="navbar-brand"
                 height="20"
