@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     session_start();
     
     if (!isset($_SESSION['user_id'])) {
-        echo "User not logged in.";
+        header("Location: /watch_store/public/views/signup_login.php");
         exit();
     }
     
@@ -148,11 +148,11 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
                             </a>
 
                             <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-title">
-                                <h3>Giorgio Galli S2Ti Swiss Made Automatic 38mm</h3>
+                                <h3><?= $product['name'] ?></h3>
                             </a>
 
-                            <p class="size">38 mm</p>
-                            <p class="price">$199.00</p>
+                            <p class="size"><? $product['category_name'] ?></p>
+                            <p class="price">$<?= $product['price'] ?></p>
 
                             <form method="post">
                                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">

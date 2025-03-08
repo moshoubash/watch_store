@@ -15,9 +15,9 @@
             $product2Sales = $productModel->getProductSales(5);
             $product3Sales = $productModel->getProductSales(7);
 
-            $product1Name = $productModel->getProductById(4)['name'];
-            $product2Name = $productModel->getProductById(5)['name'];
-            $product3Name = $productModel->getProductById(7)['name'];
+            $product1Name = $productModel->getProductById(88)['name'];
+            $product2Name = $productModel->getProductById(89)['name'];
+            $product3Name = $productModel->getProductById(90)['name'];
 
             $ordersMonth1 = $orderModel->getOrdersByMonth(1);
             $ordersMonth2 = $orderModel->getOrdersByMonth(2);
