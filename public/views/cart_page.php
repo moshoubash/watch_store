@@ -36,11 +36,15 @@ $page_title = 'Shopping Cart';
     function updateQuantity(productId, change) {
         const input = document.getElementById('quantity-' + productId);
         const currentVal = parseInt(input.value);
-        const maxStock = parseInt(input.getAttribute('max'));
+        const maxStock = parseInt(input.getAttribute('data-stock'));
         
         let newVal = currentVal + change;
+        // Ensure quantity is at least 1 and doesn't exceed stock
         if (newVal < 1) newVal = 1;
-        if (newVal > maxStock) newVal = maxStock;
+        if (newVal > maxStock) {
+            newVal = maxStock;
+            
+        }
         
         input.value = newVal;
         
@@ -70,7 +74,10 @@ $page_title = 'Shopping Cart';
             foreach ($cart_items as $item):
                 // Ensure we have all the necessary product information
                 $product_id = $item['product_id'] ?? $item['id'] ?? 0;
-                $max_stock = $item['stock'] ?? 10;
+                
+                // Get product stock directly from the products table
+                $product_info = $product->getProduct($product_id);
+                $max_stock = $product_info['stock'] ?? 10; // Default to 10 if stock info not available
         ?>
             <div class="item">
                 <div class="item-image">
@@ -102,10 +109,15 @@ $page_title = 'Shopping Cart';
                         <input type="text" id="quantity-<?php echo $product_id; ?>" name="quantity" class="quantity-input" 
                                value="<?php echo $item['quantity']; ?>" 
                                min="1" 
-                               max="<?php echo $max_stock; ?>">
+                               max="<?php echo $max_stock; ?>"
+                               data-stock="<?php echo $max_stock; ?>">
                         
                         <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $product_id; ?>, 1);">+</button>
                     </form>
+                    
+                    <?php if($item['quantity'] >= $max_stock): ?>
+                    <div class="stock-warning" style="color: red;">Max stock reached</div>
+                    <?php endif; ?>
                 </div>
                 
                 <div class="item-price">
@@ -159,7 +171,7 @@ $page_title = 'Shopping Cart';
             <button type="submit" class="checkout-btn">Proceed to Checkout</button>
         </form>
         
-        <form action="cart_controller.php" method="post" class="empty-cart-form">
+        <form action="../controllers/cart.php" method="post" class="empty-cart-form">
             <input type="hidden" name="action" value="empty">
             <button type="submit" class="empty-cart-btn">Empty Cart</button>
         </form>
