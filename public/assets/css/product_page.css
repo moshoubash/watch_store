@@ -1,0 +1,271 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #e2e2e2;
+}
+
+/* Notification bar */
+.notification-bar {
+  background-color: #000;
+  color: white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.screen-sharing-indicator {
+  color: #4caf50;
+  font-size: 14px;
+}
+
+.stop-share-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+
+/* Product Layout */
+.product-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  padding: 0;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+}
+
+.product-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background-position: center;
+}
+
+.product-details {
+  flex: 0 0 450px;
+  padding: 30px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.breadcrumb a {
+  color: #666;
+  text-decoration: none;
+}
+
+/* Rating */
+.rating {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.stars {
+  color: #000;
+  margin-right: 5px;
+}
+
+.rating-count {
+  font-weight: bold;
+}
+
+/* Product Status */
+.product-status {
+  display: inline-block;
+  border: 1px solid #ddd;
+  padding: 5px 15px;
+  font-size: 14px;
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+/* Product Title */
+.product-title {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.3;
+  color: #000;
+}
+
+/* Product Size */
+.product-size {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Product Color */
+.product-color {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.color-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* Color Options */
+.color-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.color-swatch {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.color-swatch.selected {
+  border: 2px solid #000;
+}
+
+.color-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product Price */
+.product-price {
+  margin-top: 15px;
+}
+
+.current-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.payment-options {
+  font-size: 14px;
+  color: #3aff09;
+  line-height: 1.5;
+}
+.in-stock {
+  color: #4caf50;
+  font-size: 16px;
+  font-weight: bold;
+}
+.out-of-stock {
+  color: #f44336;
+  font-size: 16px;
+  font-weight: bold;
+}
+.stock-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+}
+
+.stock-label {
+  font-size: 1rem;
+  color: #403431;
+  font-weight: bold;
+}
+
+.stock-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #403431;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #0D0000;
+  background-color: #F2F2F2;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.stock-input:focus {
+  border-color: #0D0000;
+}
+
+/* Product Actions */
+.product-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.wishlist-btn {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ddd;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.add-to-bag-btn {
+  flex: 1;
+  height: 50px;
+  background-color: #000;
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.add-to-bag-btn i {
+  margin-left: 10px;
+}
+
+/* Product Compare */
+.product-compare {
+  margin-top: 15px;
+  color: #666;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}

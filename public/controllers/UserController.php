@@ -9,14 +9,14 @@ class UserController {
     }
 
     public function register($data) {
-        $this->user->UserName = $data['UserName'];
-        $this->user->Email = $data['Email'];
+        $this->user->name = $data['UserName'];
+        $this->user->email = $data['Email'];
         $this->user->country = $data['country'];
         $this->user->state = $data['state'];
         $this->user->city = $data['city'];
-        $this->user->s_address = $data['street_address'];
-        $this->user->zip = $data['zip'];
-        $this->user->phone = $data['pho_num'];
+        $this->user->street = $data['street_address'];
+        $this->user->postal_code = $data['zip'];
+        $this->user->phone_number = $data['pho_num'];
         $this->user->password = $data['password'];
         $this->user->role = 'user';
 
@@ -32,7 +32,7 @@ class UserController {
     }
 
     public function login($data) {
-        $this->user->Email = $data['Email'];
+        $this->user->email = $data['Email'];
         $stmt = $this->user->findByEmail();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -41,16 +41,16 @@ class UserController {
         }
 
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['Email'] = $user['Email'];
-        $_SESSION['UserName'] = $user['UserName'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['name'] = $user['name'];
         $_SESSION['role'] = $user['role'];
 
         if ($user['role'] === 'superadmin') {
-            header("Location: ../superadmin_dashboard.php");
+            header("Location: superadmin_dashboard.php");
         } elseif ($user['role'] === 'admin') {
-            header("Location: ../admin_dashboard.php");
+            header("Location: admin_dashboard.php");
         } else {
-            header("Location: ../category.php");
+            header("Location: /watch_store/public/");
         }
         exit();
     }

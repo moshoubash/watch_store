@@ -1,10 +1,30 @@
+<?php
+session_start();
+require_once '../config/database.php';
+require_once '../models/User.php';
+require_once '../controllers/UserController.php';
+
+$database = new Database();
+$db = $database->getConnection();
+$userController = new UserController($db);
+$messages = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['submit'])) {
+        $messages = $userController->register($_POST);
+    } elseif (isset($_POST['login'])) {
+        $messages = $userController->login($_POST);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up / Login Page</title>
-    <link rel="stylesheet" href="./assets/Timex.css">
+    <link rel="stylesheet" href="../assets/Timex.css">
 </head>
 <body>
     <div class="form-container">
@@ -52,8 +72,8 @@
         </form>
         <form id="signupForm" class="form" method="POST" action="">
             <div class="form-group">
-                <label for="firstName">First Name*</label>
-                <input type="text" id="firstName" name="UserName" placeholder="UserName" required>
+                <label for="firstName">Username*</label>
+                <input type="text" id="firstName" name="UserName" placeholder="Username" required>
             </div>
             <div class="form-group">
                 <label for="signupEmail">Email Address*</label>
@@ -146,5 +166,6 @@
             showLogin();
         <?php endif; ?>
     </script>
+    
 </body>
 </html>
