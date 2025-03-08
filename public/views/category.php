@@ -142,7 +142,7 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
             <div class="product-list">
                 <?php if (count($products) > 0): ?>
                     <?php foreach ($products as $product): ?>
-                        <div class="card" data-brand="TIMEX" data-price="199.00" data-color="Silver">
+                        <div class="card" data-brand="<?=$product['brand']?>" data-price="<?=$product['price']?>" data-color="<?=$product['color']?>">
                             <a href="../views/product_page.php?id=<?= $product['id'] ?>" class="product-link">
                                 <img src="/watch_store/dashboard/assets/productImages/<?= htmlspecialchars($product['image'] ?? 'placeholder.jpg') ?>" alt="Giorgio Galli S2Ti Swiss Made Automatic 38mm">
                             </a>
