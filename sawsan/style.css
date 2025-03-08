@@ -278,3 +278,33 @@ h2 {
     margin-top: 15px;
     border-top: 1px solid #eee;
 }
+.empty-cart-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.empty-cart-btn:hover {
+    background-color: #0056b3;
+}
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.checkout-btn:hover {
+    background-color: #0056b3;
+}
