@@ -143,27 +143,29 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
-          <a data-bs-toggle="collapse" href="#tables">
-            <i class="fas fa-user-cog"></i>
-            <p>Admins</p>
-            <span class="caret"></span>
-          </a>
-          <div class="collapse" id="tables">
-            <ul class="nav nav-collapse">
-              <li>
-          <a href="index.php?controller=admin&action=index">
-            <span class="sub-item">Admins Data</span>
-          </a>
-              </li>
-              <li>
-          <a href="index.php?controller=admin&action=create">
-            <span class="sub-item">Create new Admin</span>
-          </a>
-              </li>
-            </ul>
-          </div>
-        </li>
+        <?php if ($_SESSION['role'] == 'superadmin') : ?>
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#tables">
+              <i class="fas fa-user-cog"></i>
+              <p>Admins</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="tables">
+              <ul class="nav nav-collapse">
+                <li>
+            <a href="index.php?controller=admin&action=index">
+              <span class="sub-item">Admins Data</span>
+            </a>
+                </li>
+                <li>
+            <a href="index.php?controller=admin&action=create">
+              <span class="sub-item">Create new Admin</span>
+            </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>

@@ -74,7 +74,7 @@
                             value="<?= htmlspecialchars($admin['phone_number']) ?>">
                         </div>
                         
-                        <input type="hidden" name="password" value="<?= htmlspecialchars($admin['password']) ?>">
+                        <input type="hidden" name="password" value=<?= htmlspecialchars($admin['password']) ?>>
 
                         <h2>Address Details</h2>
                         <hr>
