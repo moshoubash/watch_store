@@ -18,7 +18,7 @@
     
     $product_id = $_POST['product_id'];
     $user_id = $_SESSION['user_id'];
-    $quantity = 1;
+    $quantity = $_POST['quantity'];
     
     // Check if user exists in the database first
     $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
@@ -26,10 +26,9 @@
     $userCheckStmt->bindParam(':user_id', $user_id);
     $userCheckStmt->execute();
     
-    if ($userCheckStmt->rowCount() == 0) {
+    if (!isset($_SESSION['user_id']) ) {
         // User doesn't exist in database - session is invalid
-        session_unset();
-        session_destroy();
+  
         header("Location: /watch_store/public/views/signup_login.php?error=invalid_session");
         exit();
     }
