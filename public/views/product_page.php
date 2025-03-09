@@ -107,14 +107,7 @@
         $imageUrl =  $watch['image'] ? "/watch_store/dashboard/assets/productImages/" . $watch['image'] :  "/watch_store/dashboard/assets/productImages/placeholder.jpg";
       ?>
       <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" />
-    <style>
-      .product-image {
-        background-image: url("<?php echo htmlspecialchars($imageUrl); ?>");
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
-    </style>
+   
     </div>
 
     <div class="product-details">
