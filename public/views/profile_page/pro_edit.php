@@ -32,15 +32,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $params = [$name, $email, $phone, $country, $city, $street, $state];
         
         if (!empty($_POST['password']) && !empty($_POST['confirm_password'])) {
-            if ($_POST['password'] === $_POST['confirm_password']) {
-                // Hash the password
-                $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $passwordUpdateSQL = ', password = ?';
-                $params[] = $hashedPassword;
-            } else {
-                $errorMessage = 'Passwords do not match';
-                // Still continue with other updates
-            }
+            // Check password requirements
+                // Only proceed with password update if requirements are met
+                if ($_POST['password'] === $_POST['confirm_password']) {
+                    // Hash the password
+                    $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    $passwordUpdateSQL = ', password = ?';
+                    $params[] = $hashedPassword;
+                } else {
+                    echo "<script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Passwords Do Not Match',
+                            text: 'Please ensure both passwords are identical',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    </script>";
+                    // Still continue with other updates
+                }
+            
         }
         
         // Add image URL to SQL if provided
@@ -295,10 +305,27 @@ try {
             var confirmPassword = document.getElementById('confirm_password').value;
             
             if (password !== confirmPassword && (password !== '' || confirmPassword !== '')) {
-                e.preventDefault();
-                alert('Passwords do not match');
-            }
+        e.preventDefault();
+        Swal.fire({
+            icon: 'error',
+            title: 'Passwords Do Not Match',
+            text: 'Please ensure both passwords are identical',
+            confirmButtonColor: '#3085d6',
+            timer: 5000
         });
+    }
+    // Check password requirements
+    else if (password !== '' && (password.length < 8 || !/[a-zA-Z]/.test(password))) {
+        e.preventDefault();
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Password',
+            text: 'Password must be at least 8 characters long and contain at least one letter',
+            confirmButtonColor: '#3085d6',
+            timer: 5000
+        });
+    }
+});
         
         // Preview image when URL is entered
         document.getElementById('image_url').addEventListener('input', function() {
@@ -312,5 +339,7 @@ try {
             }
         });
     </script>
+    <!-- Add this in your HTML head section -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

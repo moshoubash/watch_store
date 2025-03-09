@@ -8,6 +8,82 @@
   $stmt->execute([$watchId]);
   $watch = $stmt->fetch();
 
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    session_start();
+    
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /watch_store/public/views/signup_login.php");
+        exit();
+    }
+    
+    $product_id = $_POST['product_id'];
+    $user_id = $_SESSION['user_id'];
+    $quantity = 1;
+    
+    // Check if user exists in the database first
+    $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
+    $userCheckStmt = $pdo->prepare($userCheckQuery);
+    $userCheckStmt->bindParam(':user_id', $user_id);
+    $userCheckStmt->execute();
+    
+    if ($userCheckStmt->rowCount() == 0) {
+        // User doesn't exist in database - session is invalid
+        session_unset();
+        session_destroy();
+        header("Location: /watch_store/public/views/signup_login.php?error=invalid_session");
+        exit();
+    }
+    
+    // Now proceed with cart operations
+    $cartQuery = "SELECT id FROM cart WHERE user_id = :user_id";
+    $cartStmt = $pdo->prepare($cartQuery);
+    $cartStmt->bindParam(':user_id', $user_id);
+    $cartStmt->execute();
+    
+    if ($cartStmt->rowCount() > 0) {
+        $cart = $cartStmt->fetch(PDO::FETCH_ASSOC);
+        $cart_id = $cart['id'];
+    } else {
+        try {
+            $createCartQuery = "INSERT INTO cart (user_id, created_at) VALUES (:user_id, NOW())";
+            $createCartStmt = $pdo->prepare($createCartQuery);
+            $createCartStmt->bindParam(':user_id', $user_id);
+            $createCartStmt->execute();
+            $cart_id = $pdo->lastInsertId();
+        } catch (PDOException $e) {
+            // Log error and redirect with meaningful message
+            error_log("Cart creation error: " . $e->getMessage());
+            header("Location: " . $_SERVER['PHP_SELF'] . "?error=cart_creation");
+            exit();
+        }
+    }
+    
+    $checkQuery = "SELECT * FROM cart_items WHERE cart_id = :cart_id AND product_id = :product_id";
+    $checkStmt = $pdo->prepare($checkQuery);
+    $checkStmt->bindParam(':cart_id', $cart_id);
+    $checkStmt->bindParam(':product_id', $product_id);
+    $checkStmt->execute();
+    
+    if ($checkStmt->rowCount() > 0) {
+        $updateQuery = "UPDATE cart_items SET quantity = quantity + :quantity WHERE cart_id = :cart_id AND product_id = :product_id";
+        $updateStmt = $pdo->prepare($updateQuery);
+        $updateStmt->bindParam(':quantity', $quantity);
+        $updateStmt->bindParam(':cart_id', $cart_id);
+        $updateStmt->bindParam(':product_id', $product_id);
+        $updateStmt->execute();
+    } else {
+        $insertQuery = "INSERT INTO cart_items (cart_id, product_id, quantity, added_at) VALUES (:cart_id, :product_id, :quantity, NOW())";
+        $insertStmt = $pdo->prepare($insertQuery);
+        $insertStmt->bindParam(':cart_id', $cart_id);
+        $insertStmt->bindParam(':product_id', $product_id);
+        $insertStmt->bindParam(':quantity', $quantity);
+        $insertStmt->execute();
+    }
+    
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +141,7 @@
           <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Stainless Steel Watch" />
         </div>
       </div>
-
+      <form method="post">
       <div class="product-price">
         <div class="current-price"><?php echo htmlspecialchars($watch['price']).'$'?></div>
         <div class="payment-options">
@@ -81,10 +157,16 @@
   <input 
     id="stock_count"
     class="stock-input"
+    name="quantity"
     type="number"
     value="1"
     min="1"
     max="<?php echo htmlspecialchars($watch['stock'])?>"
+  />
+  <input 
+    type="hidden"
+    name="product_id"
+    value="<?php echo htmlspecialchars($watch['id'])?>"
   />
 </div>
       </div>
@@ -93,11 +175,12 @@
         <button class="wishlist-btn">
           <i class="far fa-heart"></i>
         </button>
-        <button class="add-to-bag-btn">
+        <button class="add-to-bag-btn"  name="add_to_cart">
           Add to Bag
           <i class="fas fa-arrow-right"></i>
         </button>
       </div>
+      </form>
 
   
     </div>
