@@ -6,8 +6,10 @@
   $watchId = $_GET['id'] ?? 1;
   $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
   $stmt->execute([$watchId]);
+  session_start();
   $watch = $stmt->fetch();
 
+  $userId = $_SESSION['user_id'] ?? null;
 ?>
 
 <!DOCTYPE html>
