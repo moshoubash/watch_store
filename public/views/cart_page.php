@@ -82,7 +82,7 @@ $page_title = 'Shopping Cart';
             <div class="item">
                 <div class="item-image">
                     <?php if (isset($item['image']) && $item['image']): ?>
-                        <img src="/watch_store/dashboard/assets/img/<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                        <img src="/watch_store/dashboard/assets/productImages/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
                     <?php else: ?>
                         <div class="placeholder-image">
                             <i class="fas fa-watch"></i>
