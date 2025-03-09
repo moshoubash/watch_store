@@ -53,15 +53,16 @@ try {
 
     <main>
         <div class="profile">
-        <div class="profile_img" style="background-image: url('<?php echo htmlspecialchars(($user['image'] != "") ? $user['image'] : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'); ?>');"></div>
-            <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
-            <div>
+        <div class="profile_img" style="background-color:white;">
+            <img src="/watch_store/public/assets/ProfileImages/<?php echo $user['image']?>" width="100%" alt="">
+        </div>
+        <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
+        <div>
             <div class="edit_btn"><a href="./pro_edit.php" style="text-decoration: none; color: white;">Edit Profile</a></div>
             <div class="edit_btn"><a href="/watch_store/public" style="text-decoration: none; color: white;">Home page</a></div>
             <div class="edit_btn"><a href="../logout.php" style="text-decoration: none; color: white;"> logout </a></div>
         </div>
     </div>
-
         <div class="content-container">
             <div class="user_info">
                 <p><b>Email :</b> <?php echo htmlspecialchars($user['email']); ?></p>
