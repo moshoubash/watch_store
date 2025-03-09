@@ -27,7 +27,7 @@
     <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <?php require_once "../views/components/navbar.html"; ?>
+    <?php require_once "../views/components/navbar.php"; ?>
 
     <main class="container">
         <aside class="sidebar">

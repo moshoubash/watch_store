@@ -54,7 +54,7 @@ $page_title = 'Shopping Cart';
     </script>
 </head>
 <body>
-<?php include './components/navbar.html'; ?>
+<?php include './components/navbar.php'; ?>
 <div class="container cart-container">
     <div class="cart-items">
         <h2>Shopping Cart (<?php echo $cart_count; ?> items)</h2>

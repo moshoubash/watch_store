@@ -27,7 +27,7 @@
         </ul>
     </nav> -->
 
-    <?php include './components/navbar.html'; ?>
+    <?php include './components/navbar.php'; ?>
 
     <!-- Our Story Section -->
     <section id="story" class="our_story_head">
