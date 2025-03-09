@@ -249,7 +249,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
 
                             <?php foreach ($cartItems as $item): ?>
                                 <div class="product-item">
-                                    <div class="product-image" style="background-image: url('<?php echo htmlspecialchars($item['image'] ?? 'img/placeholder.jpg'); ?>')"></div>
+                                    <div class="product-image">
+                                        <img src="/watch_store/dashboard/assets/productImages/<?php echo $item['image'] ?>" alt="Product image" width="70">
+                                    </div>
+                                    
                                     <div class="product-details">
                                         <div class="product-name"><?php echo htmlspecialchars($item['product_name']); ?></div>
                                         <div class="product-quantity">Quantity: <?php echo htmlspecialchars($item['quantity']); ?></div>

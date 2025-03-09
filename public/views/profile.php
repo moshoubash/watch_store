@@ -7,6 +7,7 @@ require_once '../controllers/profile.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/profile.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
     <title>User Profile - <?php echo htmlspecialchars($user['name']); ?></title>
 </head>
 <body>
@@ -48,5 +49,7 @@ require_once '../controllers/profile.php';
             </div>
         </div>
     </main>
+    <script>
+    </script>
 </body>
 </html>

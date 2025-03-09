@@ -108,7 +108,7 @@ try {
             <div class="items-grid">
                 <?php foreach ($orderItems as $item): ?>
                 <div class="item-card">
-                    <div class="item-image" style="background-image: url('<?php echo htmlspecialchars($item['image'] ?? '../public/assets/img/placeholder.jpg'); ?>')"></div>
+                    <div class="item-image" style="background-image: url('/watch_store/dashboard/assets/productImages/<?php echo htmlspecialchars($item['image'] ?? '/watch_store/dashboard/assets/productImages/placeholder.jpg'); ?>')"></div>
                     <div class="item-details">
                         <div class="item-name"><?php echo htmlspecialchars($item['product_name']); ?></div>
                         <div class="item-qty-price">

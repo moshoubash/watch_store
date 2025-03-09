@@ -40,6 +40,7 @@ body {
 .product-container {
   display: flex;
   max-width: 1200px;
+  
   margin: 0 auto;
   flex-wrap: wrap;
   padding: 0;
