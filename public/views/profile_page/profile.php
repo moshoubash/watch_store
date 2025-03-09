@@ -93,7 +93,14 @@ try {
                                     $orderItemsStmt->execute([$order['id']]);
                                     $orderItems = $orderItemsStmt->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
-                                    <h3>Order <?php echo $order['id']; ?> Details:</h3>
+                                    <div class="order_header" style="display: flex; justify-content: space-between;">
+                                    <h3>Order <?php echo $order['id']; ?> Details: </h3>
+                                    <div style="display: flex; background-color: transparent; align-items: center;">
+                                        <h6 style="margin-right: 5px;">status : </h6>
+                                    <h6 class="payment_status <?php echo htmlspecialchars($order['status']); ?>"> <?php echo htmlspecialchars($order['status']); ?></h6>
+                                    </div>    
+                                </div>
+                                   
                                     <table class="table table-striped align-items-center">
                                         <thead>
                                             <tr>

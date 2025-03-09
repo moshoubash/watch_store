@@ -67,8 +67,8 @@ main {
 }
 
 .edit_btn {
-  background-color: #403431;
-  color: #f5f5f5;
+  background-color: #4CAF50;
+
   padding: 10px 30px;
   border-radius: 8px;
   cursor: pointer;
@@ -79,6 +79,9 @@ main {
   border: none;
   transition: background-color 0.3s ease;
   text-align: center;
+}
+.logg{
+  background-color: #D32F2F;
 }
 
 .edit_btn:hover {
@@ -181,6 +184,10 @@ main {
 
 .payment_status.cancelled {
   color: #f44336;
+}
+
+.payment_status.shipped {
+  color: #0804c2;
 }
 
 .no_history {
