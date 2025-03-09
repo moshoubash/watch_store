@@ -1,31 +1,32 @@
 <?php
-    $host="localhost";
-        $dbname="watch_store";
-        $username="root";
-        $password="";
-        $dsn="mysql:host=$host;dbname=$dbname";
-        try {
-            $conn = new PDO($dsn, $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
-            echo "Database Connection Failed: " . $e->getMessage();
-        }
+$host="localhost";
+$dbname="watch_store";
+$username="root";
+$password="";
+$dsn="mysql:host=$host;dbname=$dbname";
+try {
+    $conn = new PDO($dsn, $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo "Database Connection Failed: " . $e->getMessage();
+}
+
 $categories = isset($_GET['categories']) ? $_GET['categories'] : 'all';
 
 $query = "SELECT p.*, ws.strap_type, ws.water_resistant, ws.material, ws.type, ws.color, ws.dial_size, ws.target_audience
           FROM products p 
           LEFT JOIN watch_specs ws ON p.id = ws.product_id";
 
-    if ($categories !== 'all') {
-        $query .= " WHERE p.category_name = :categories";
-    }
+if ($categories !== 'all') {
+    $query .= " WHERE p.category_name = :categories";
+}
 
-    $stmt = $conn->prepare($query);
-    if ($categories !== 'all') {
-        $stmt->bindParam(':categories', $categories);
-    }
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->prepare($query);
+if ($categories !== 'all') {
+    $stmt->bindParam(':categories', $categories);
+}
+$stmt->execute();
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     session_start();
@@ -34,9 +35,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         header("Location: /watch_store/public/views/signup_login.php");
         exit();
     }
+    
     $product_id = $_POST['product_id'];
     $user_id = $_SESSION['user_id'];
     $quantity = 1;
+    
+    // تحقق من وجود المستخدم في جدول users
+    $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
+    $userCheckStmt = $conn->prepare($userCheckQuery);
+    $userCheckStmt->bindParam(':user_id', $user_id);
+    $userCheckStmt->execute();
+    
+    if ($userCheckStmt->rowCount() == 0) {
+        // إذا لم يكن المستخدم موجودًا، أعد توجيهه إلى صفحة التسجيل/تسجيل الدخول
+        header("Location: /watch_store/public/views/signup_login.php");
+        exit();
+    }
     
     $cartQuery = "SELECT id FROM cart WHERE user_id = :user_id";
     $cartStmt = $conn->prepare($cartQuery);
@@ -103,8 +117,8 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
         <aside class="sidebar">
             <h3>Filters</h3>
             <label for="priceRange">Price Range</label>
-            <input id="priceRange" type="range" min="50" max="5000" value="2500">
-            <span id="priceValue">$2500</span>
+            <input id="priceRange" type="range" min="50" max="15000" value="7500">
+            <span id="priceValue">$7500</span>
             <h4>Brand</h4>
             <select id="filter-brand">
                 <option value="all">All Brands</option>
