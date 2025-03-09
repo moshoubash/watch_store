@@ -46,9 +46,9 @@ class UserController {
         $_SESSION['role'] = $user['role'];
 
         if ($user['role'] === 'superadmin') {
-            header("Location: superadmin_dashboard.php");
+            header("Location: /watch_store/dashboard/");
         } elseif ($user['role'] === 'admin') {
-            header("Location: admin_dashboard.php");
+            header("Location: /watch_store/dashboard/");
         } else {
             header("Location: /watch_store/public/");
         }

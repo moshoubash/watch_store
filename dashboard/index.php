@@ -1,6 +1,6 @@
 <?php
   session_start();
-
+  
   require_once 'config/database.php';
   require_once 'controllers/ProductController.php';
   require_once 'controllers/DashboardController.php';
@@ -9,6 +9,11 @@
   require_once 'controllers/CustomerController.php';
   require_once 'controllers/OrderController.php';
   require_once 'controllers/AdminController.php';
+
+  if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'superadmin')) {
+      header("Location: /watch_store/public");
+      exit();
+  }
 
   $controller = isset($_GET['controller']) ? $_GET['controller'] : 'dashboard';
   $action = isset($_GET['action']) ? $_GET['action'] : 'index';
@@ -22,7 +27,7 @@
     'order' => new OrderController(),
     'admin' => new AdminController()
   ];
-
+  
   if (array_key_exists($controller, $controllers)) {
       $ctrl = $controllers[$controller];
 

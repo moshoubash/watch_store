@@ -114,6 +114,7 @@
                     "id" => $_POST["id"],
                     "name" => $_POST["name"],
                     "email" => $_POST["email"],
+                    "role" => $_POST["role"],
                     "phone_number" => $_POST["phone_number"],
                     "country" => $_POST["country"],
                     "city" => $_POST["city"],
@@ -122,8 +123,9 @@
                     "postal_code" => $_POST["postal_code"],
                     "password" => $_POST["password"],
                 ];
-                $this->adminModel->updateAdmin($data);
-                header("Location: index.php?controller=admin&action=index");
+                
+                $this->adminModel->updateSettings($data);
+                header("Location: /watch_store/dashboard");
             }
         }
     }

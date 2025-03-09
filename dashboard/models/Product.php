@@ -69,16 +69,17 @@
             return $result['total'];
         }
 
-        public function getProductSales($product_id) {
-            $query = "SELECT SUM(quantity) as total_sales 
-                      FROM order_items 
-                      WHERE product_id = :product_id";
+        public function getTopThreeSoldProducts() {
+            $query = "SELECT p.id, p.name, p.category_name as product_category, p.price, p.image, SUM(oi.quantity) as total_quantity 
+                  FROM order_items oi
+                  JOIN products p ON oi.product_id = p.id
+                  GROUP BY p.id, p.name, p.category_name, p.price, p.image
+                  ORDER BY total_quantity DESC 
+                  LIMIT 3";
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":product_id", $product_id);
             $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['total_sales'];
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 ?>
