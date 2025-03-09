@@ -156,9 +156,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
         $pdo->commit();
         
         // Store the order ID in session and redirect
-        $_SESSION['last_order_id'] = $order_id;
-        header('Location: ./order-confirmation.php');
+
+        header('Location: order-confirmation.php?order_id=' . $order_id);
         exit;
+        
     } catch (PDOException $e) {
         $pdo->rollBack();
         $error_message = "Order processing failed: " . $e->getMessage();
