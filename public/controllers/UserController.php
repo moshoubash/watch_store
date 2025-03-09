@@ -9,6 +9,11 @@ class UserController {
     }
 
     public function register($data) {
+
+        if (strlen($data['password']) < 8 || !preg_match('/[a-zA-Z]/', $data['password'])) {
+            return ['error' => 'Password must be at least 8 characters long and contain at least one letter'];
+        }
+    
         $this->user->name = $data['UserName'];
         $this->user->email = $data['Email'];
         $this->user->country = $data['country'];
@@ -19,15 +24,15 @@ class UserController {
         $this->user->phone_number = $data['pho_num'];
         $this->user->password = $data['password'];
         $this->user->role = 'user';
-
+    
         if ($this->user->findByEmail()->rowCount() > 0) {
             return ['error' => 'Email already exists'];
         }
-
+    
         if ($this->user->create()) {
             return ['success' => 'New record created successfully'];
         }
-
+    
         return ['error' => 'Failed to create new record'];
     }
 

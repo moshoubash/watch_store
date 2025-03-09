@@ -38,6 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $user_id = $_SESSION['user_id'];
     $quantity = 1;
     
+    // Check if user exists in the database first
+    $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
+    $userCheckStmt = $conn->prepare($userCheckQuery);
+    $userCheckStmt->bindParam(':user_id', $user_id);
+    $userCheckStmt->execute();
+    
+    if ($userCheckStmt->rowCount() == 0) {
+        // User doesn't exist in database - session is invalid
+        session_unset();
+        session_destroy();
+        header("Location: /watch_store/public/views/signup_login.php?error=invalid_session");
+        exit();
+    }
+    
+    // Now proceed with cart operations
     $cartQuery = "SELECT id FROM cart WHERE user_id = :user_id";
     $cartStmt = $conn->prepare($cartQuery);
     $cartStmt->bindParam(':user_id', $user_id);
@@ -47,11 +62,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         $cart = $cartStmt->fetch(PDO::FETCH_ASSOC);
         $cart_id = $cart['id'];
     } else {
-        $createCartQuery = "INSERT INTO cart (user_id, created_at) VALUES (:user_id, NOW())";
-        $createCartStmt = $conn->prepare($createCartQuery);
-        $createCartStmt->bindParam(':user_id', $user_id);
-        $createCartStmt->execute();
-        $cart_id = $conn->lastInsertId();
+        try {
+            $createCartQuery = "INSERT INTO cart (user_id, created_at) VALUES (:user_id, NOW())";
+            $createCartStmt = $conn->prepare($createCartQuery);
+            $createCartStmt->bindParam(':user_id', $user_id);
+            $createCartStmt->execute();
+            $cart_id = $conn->lastInsertId();
+        } catch (PDOException $e) {
+            // Log error and redirect with meaningful message
+            error_log("Cart creation error: " . $e->getMessage());
+            header("Location: " . $_SERVER['PHP_SELF'] . "?error=cart_creation");
+            exit();
+        }
     }
     
     $checkQuery = "SELECT * FROM cart_items WHERE cart_id = :cart_id AND product_id = :product_id";
