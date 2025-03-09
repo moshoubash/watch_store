@@ -48,11 +48,14 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style_cloud.css">
+    <link rel="stylesheet" href="../../assets/css/navbar.css">
+    <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
     <title>User Profile - <?php echo htmlspecialchars($user['name']); ?></title>
 </head>
 <body>
     <!-- <div class="status-bar">Connected successfully!</div> to test if con right--> 
-    
+    <?php require_once "../components/navbar.html" ?>
+
     <main>
         <div class="profile">
         <div class="profile_img" style="background-image: url('<?php echo htmlspecialchars(($user['image'] != "") ? $user['image'] : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'); ?>');"></div>
