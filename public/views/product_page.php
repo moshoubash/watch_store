@@ -20,7 +20,7 @@ $watch = $stmt->fetch();
     
     $product_id = $_POST['product_id'];
     $user_id = $_SESSION['user_id'];
-    $quantity = $_POST['quantity'];
+    $quantity = 1;
     
     // Check if user exists in the database first
     $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
@@ -28,9 +28,10 @@ $watch = $stmt->fetch();
     $userCheckStmt->bindParam(':user_id', $user_id);
     $userCheckStmt->execute();
     
-    if (!isset($_SESSION['user_id']) ) {
+    if ($userCheckStmt->rowCount() == 0) {
         // User doesn't exist in database - session is invalid
-  
+        session_unset();
+        session_destroy();
         header("Location: /watch_store/public/views/signup_login.php?error=invalid_session");
         exit();
     }
@@ -126,11 +127,9 @@ $watch = $stmt->fetch();
     </div>
 
     <div class="product-details">
-      <!-- Keep your existing product details HTML -->
       <br>
       <br>
       <br>
-
       <div class="product-status">Brand : <?php echo " " . htmlspecialchars($watch['brand'])?></div>
 
       <h1 class="product-title"><?php echo htmlspecialchars($watch['name'])?></h1>
@@ -176,7 +175,6 @@ $watch = $stmt->fetch();
   />
 </div>
       </div>
-
       <div class="product-actions">
         <button class="wishlist-btn">
           <i class="<?php echo $inWishlist ? 'fas' : 'far'; ?> fa-heart"></i>
