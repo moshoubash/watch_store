@@ -140,8 +140,6 @@ input[type="password"] {
     background-color: #f0f0f0;
     margin-left: 15px;
     border-radius: 4px;
-    background-position: center;
-    background-size: cover;
 }
 
 .product-details {
