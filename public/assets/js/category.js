@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
         productCards.forEach(card => {
             const color = card.getAttribute('data-color');
             console.log("Card color:", color);
-            // باقي الكود
         });
 
 
@@ -68,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resetFilters.addEventListener("click", () => {
         filterBrand.value = "all";
         filterColor.value = "all";
-        priceRange.value = 2500;
-        priceValue.textContent = "$2500";
+        priceRange.value = 7500;
+        priceValue.textContent = "$7500";
         featureChrono.checked = false;
         featureAuto.checked = false;
         featureWaterproof.checked = false;
