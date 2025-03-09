@@ -58,9 +58,8 @@ try {
         </div>
         <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
         <div>
-            <div class="edit_btn"><a href="./pro_edit.php" style="text-decoration: none; color: white;">Edit Profile</a></div>
-            <div class="edit_btn"><a href="/watch_store/public" style="text-decoration: none; color: white;">Home page</a></div>
-            <div class="edit_btn"><a href="../logout.php" style="text-decoration: none; color: white;"> logout </a></div>
+        <div class="edit_btn"><a href="./pro_edit.php" style="text-decoration: none; color: white;">Edit Profile <i class="fa-solid fa-pen-to-square " style="margin-left: .5rem;"></i></a></div>
+        <div class="edit_btn logg"><a href="../logout.php" style="text-decoration: none; color: white;">LogOut  <i class="fa-solid fa-arrow-right-from-bracket" style="margin-left: .5rem;"></i> </a></div>
         </div>
     </div>
         <div class="content-container">
