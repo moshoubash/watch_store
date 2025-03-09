@@ -54,6 +54,18 @@
                       <label class="form-label">End Date:</label>
                       <input type="date" name="end_date" class="form-control" required>
                     </div>
+                    <div class="mb-3">
+                      <label class="form-label">Coupon Code:</label>
+                      <input type="text" name="coupon_code" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Discount Amount:</label>
+                      <input type="number" name="discount_amount" class="form-control" required min="0">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Limit Uses:</label>
+                      <input type="number" name="limit_uses" class="form-control" required min="0">
+                    </div>
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary px-4">Save</button>

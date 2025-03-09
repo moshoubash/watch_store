@@ -42,6 +42,7 @@
               <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Coupon Code</th>
                 <th>Percentage</th>
                 <th>Usage Limit</th>
                 <th>Expiration Date</th>
@@ -56,6 +57,9 @@
                 </td>
                 <td>
                   <?= $discount['name'] ?>
+                </td>
+                <td>
+                  <?= $discount['coupon_code'] ?>
                 </td>
                 <td>
                   <?= $discount['discount_percentage'] ?>%
