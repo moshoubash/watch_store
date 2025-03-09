@@ -101,6 +101,9 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style_cloud.css">
+    <link rel="stylesheet" href="../../assets/css/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
     <title>Edit Profile - <?php echo htmlspecialchars($user['name']); ?></title>
     <style>
         .edit-form {
@@ -207,6 +210,7 @@ try {
     </style>
 </head>
 <body>
+    <?php require_once "../components/navbar.html" ?>
     <main>
         <h1 style="text-align: center;">Edit Personal Information</h1>
         
@@ -287,7 +291,10 @@ try {
             </form>
         </div>
     </main>
-    
+    <?php require_once "../components/footer.html" ?>
+    <script>
+        <?php require_once "../../assets/js/navbar.js" ?>
+    </script>
     <script>
         // Basic form validation for password matching
         document.querySelector('form').addEventListener('submit', function(e) {

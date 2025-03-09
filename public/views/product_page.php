@@ -119,12 +119,9 @@
     </div>
 
     <div class="product-details">
-      
-
       <br>
       <br>
       <br>
-
       <div class="product-status">Brand : <?php echo " " . htmlspecialchars($watch['brand'])?></div>
 
       <h1 class="product-title"><?php echo htmlspecialchars($watch['name'])?></h1>
@@ -170,7 +167,6 @@
   />
 </div>
       </div>
-
       <div class="product-actions">
         <button class="wishlist-btn">
           <i class="far fa-heart"></i>
