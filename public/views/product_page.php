@@ -1,13 +1,22 @@
 <?php
-  // Include the database connection file
-  include('../config/connectt.php');
+// At the beginning of your product.php file
+session_start();
+// Include the database connection file
+include('../config/connectt.php');
 
-  // Get the watch details from the database
-  $watchId = $_GET['id'] ?? 1;
-  $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
-  $stmt->execute([$watchId]);
-  $watch = $stmt->fetch();
+// Get the watch details from the database
+$watchId = $_GET['id'] ?? 1;
+$stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
+$stmt->execute([$watchId]);
+$watch = $stmt->fetch();
 
+// Check if the product is in the user's wishlist (if logged in)
+$inWishlist = false;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare('SELECT id FROM wishlist WHERE user_id = ? AND product_id = ?');
+    $stmt->execute([$_SESSION['user_id'], $watchId]);
+    $inWishlist = ($stmt->fetch() !== false);
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,18 +29,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="../assets/css/navbar.css">
   <link rel="stylesheet" href="../assets/css/footer.css">
+  <script>
+    // Pass PHP variables to JavaScript
+    const isUserLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+    const isInWishlist = <?php echo $inWishlist ? 'true' : 'false'; ?>;
+  </script>
 </head>
 <body>
   
 <?php include './components/navbar.html'; ?>
 
   <main class="product-container">
+    <!-- Keep your existing product content -->
     <div class="product-image">
       <?php
         // Use the watch image from database
-        $imageUrl =  $watch['image'] ? "/watch_store/dashboard/assets/productImages/" . $watch['image'] :  "/watch_store/dashboard/assets/productImages/placeholder.jpg";
+        $imageUrl = $watch['image'] ? "/watch_store/dashboard/assets/productImages/" . $watch['image'] : "/watch_store/dashboard/assets/productImages/placeholder.jpg";
       ?>
-      <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" />
+      <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="<?php echo htmlspecialchars($watch['name'])?>" />
     <style>
       .product-image {
         background-image: url("<?php echo htmlspecialchars($imageUrl); ?>");
@@ -43,8 +58,7 @@
     </div>
 
     <div class="product-details">
-      
-
+      <!-- Keep your existing product details HTML -->
       <br>
       <br>
       <br>
@@ -77,35 +91,34 @@
         </div>
         
         <div class="stock-input-container">
-  <label for="stock_count" class="stock-label">Select Quantity</label>
-  <input 
-    id="stock_count"
-    class="stock-input"
-    type="number"
-    value="1"
-    min="1"
-    max="<?php echo htmlspecialchars($watch['stock'])?>"
-  />
-</div>
+          <label for="stock_count" class="stock-label">Select Quantity</label>
+          <input 
+            id="stock_count"
+            class="stock-input"
+            type="number"
+            value="1"
+            min="1"
+            max="<?php echo htmlspecialchars($watch['stock'])?>"
+          />
+        </div>
       </div>
 
       <div class="product-actions">
         <button class="wishlist-btn">
-          <i class="far fa-heart"></i>
+          <i class="<?php echo $inWishlist ? 'fas' : 'far'; ?> fa-heart"></i>
         </button>
-        <button class="add-to-bag-btn">
+        <button class="add-to-bag-btn" <?php echo $watch['stock'] <= 0 ? 'disabled' : ''; ?>>
           Add to Bag
           <i class="fas fa-arrow-right"></i>
         </button>
       </div>
-
-  
     </div>
   </main>
 
   <?php include './components/footer.html'; ?>
 
   <script src="../assets/js/navbar.js"></script>
-
+  <!-- Add the new JavaScript file for add to cart and wishlist functionality -->
+  <script src="../assets/js/product.js"></script>
 </body>
 </html>
