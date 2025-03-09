@@ -58,6 +58,20 @@
                   <label class="form-label">End Date:</label>
                   <input name="end_date" class="form-control" type="date" value="<?= htmlspecialchars(date('Y-m-d', strtotime($discount['end_date']))) ?>" required/>
               </div>
+              <div class="mb-3">
+                <label class="form-label">Coupon Code:</label>
+                <input type="text" name="coupon_code" class="form-control" value="<?= htmlspecialchars($discount['coupon_code']) ?>" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Discount Amount:</label>
+                <input type="number" name="discount_amount" class="form-control" value="<?= htmlspecialchars($discount['discount_amount']) ?>" required>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Limit Uses:</label>
+                <input type="number" name="limit_uses" class="form-control" value="<?= htmlspecialchars($discount['limit_uses']) ?>" required>
+              </div>
 
               <button type="submit" class="btn btn-primary">Update Discount</button>
               <a href="index.php?controller=discount&action=index" class="btn btn-danger">Cancel</a>
