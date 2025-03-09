@@ -49,7 +49,7 @@ try {
 </head>
 <body>
     <!-- <div class="status-bar">Connected successfully!</div> to test if con right--> 
-    <?php require_once "../components/navbar.html" ?>
+    <?php require_once "../components/navbar.php" ?>
 
     <main>
         <div class="profile">
@@ -93,28 +93,24 @@ try {
                                     $orderItems = $orderItemsStmt->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
                                     <h3>Order <?php echo $order['id']; ?> Details:</h3>
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-striped align-items-center">
                                         <thead>
                                             <tr>
                                                 <th>Product Image</th>
                                                 <th>Product Name</th>
-                                                <th>Description</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
-                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($orderItems as $item): ?>
                                                 <tr>
-                                                    <td style="display:flex; justify-content:center;">
+                                                    <td style="display: flex; justify-content:center; align-items:center;">
                                                         <img height="auto" width="50" src="/watch_store/dashboard/assets/productImages/<?= $item['product_image'] ?>" alt="<?= $item['product_name'] ?>">
                                                     </td>
                                                     <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                                                    <td><?php echo htmlspecialchars($item['product_description']); ?></td>
                                                     <td>$<?php echo number_format($item['price'], 2); ?></td>
                                                     <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                                                    <td>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

@@ -100,7 +100,7 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
 </head>
 
 <body>
-    <?php include './components/navbar.html'; ?>
+    <?php include './components/navbar.php'; ?>
     <main class="container">
         <aside class="sidebar">
             <h3>Filters</h3>

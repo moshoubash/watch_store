@@ -19,7 +19,7 @@ require_once '../config/connectt.php';
 </head>
 <body>
 
-<?php include './components/navbar.html'; ?>
+<?php include './components/navbar.php'; ?>
 
     <div class="contact_us">
         <div class="contact_us_content">

@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 <body>
-<?php include '../public/views/components/navbar.html'; ?>
+<?php include '../public/views/components/navbar.php'; ?>
    
     <div class="container">
         <?php if (isset($error_message)): ?>
@@ -162,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div class="form-group form-row">
                             <div>
-                                <label for="city">city</label>
+                                <label for="city">zz</label>
                                 <input type="text" id="city" name="city" value="<?php echo htmlspecialchars($user['city'] ?? ''); ?>" required>
                             </div>
                             <div>

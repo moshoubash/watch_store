@@ -76,7 +76,7 @@ try {
     </style>
 </head>
 <body>
-    <?php include '../public/views/components/navbar.html'; ?>
+    <?php include '../public/views/components/navbar.php'; ?>
     
     <div class="confirmation-container">
         <div class="success-icon">

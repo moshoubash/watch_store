@@ -99,7 +99,7 @@
 </head>
 <body>
   
-<?php include './components/navbar.html'; ?>
+<?php include './components/navbar.php'; ?>
 
   <main class="product-container">
     <div class="product-image">
