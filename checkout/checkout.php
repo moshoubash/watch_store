@@ -177,8 +177,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
     <title>Checkout - Watch Store</title>
 </head>
 <body>
-    <?php include '../public/views/components/navbar.html'; ?>
-   
+
+<?php include '../public/views/components/navbar.php'; ?>
     <div class="container">
         <?php if (isset($error_message)): ?>
             <div class="error-message"><?php echo $error_message; ?></div>

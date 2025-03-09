@@ -220,7 +220,7 @@ try {
     </style>
 </head>
 <body>
-    <?php require_once "../components/navbar.html" ?>
+    <?php require_once "../components/navbar.php" ?>
     <main>
         <h1 style="text-align: center;">Edit Personal Information</h1>
         

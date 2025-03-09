@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/footer.css">
 </head>
 <body>
-    <?php include 'views/components/navbar.html'; ?>
+    <?php include 'views/components/navbar.php'; ?>
     <?php include 'views/components/hero.html'; ?>
     <?php include 'views/components/featured.php'; ?>
     <?php include 'views/components/collections.html'; ?>
