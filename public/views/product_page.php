@@ -1,14 +1,12 @@
 <?php
-// At the beginning of your product.php file
-session_start();
-// Include the database connection file
-include('../config/connectt.php');
+  // Include the database connection file
+  include('../config/connectt.php');
 
-// Get the watch details from the database
-$watchId = $_GET['id'] ?? 1;
-$stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
-$stmt->execute([$watchId]);
-$watch = $stmt->fetch();
+  // Get the watch details from the database
+  $watchId = $_GET['id'] ?? 1;
+  $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
+  $stmt->execute([$watchId]);
+  $watch = $stmt->fetch();
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     session_start();
@@ -20,7 +18,7 @@ $watch = $stmt->fetch();
     
     $product_id = $_POST['product_id'];
     $user_id = $_SESSION['user_id'];
-    $quantity = 1;
+    $quantity = $_POST['quantity'];
     
     // Check if user exists in the database first
     $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
@@ -28,10 +26,9 @@ $watch = $stmt->fetch();
     $userCheckStmt->bindParam(':user_id', $user_id);
     $userCheckStmt->execute();
     
-    if ($userCheckStmt->rowCount() == 0) {
+    if (!isset($_SESSION['user_id']) ) {
         // User doesn't exist in database - session is invalid
-        session_unset();
-        session_destroy();
+  
         header("Location: /watch_store/public/views/signup_login.php?error=invalid_session");
         exit();
     }
@@ -98,24 +95,18 @@ $watch = $stmt->fetch();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="../assets/css/navbar.css">
   <link rel="stylesheet" href="../assets/css/footer.css">
-  <script>
-    // Pass PHP variables to JavaScript
-    const isUserLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
-    const isInWishlist = <?php echo $inWishlist ? 'true' : 'false'; ?>;
-  </script>
 </head>
 <body>
   
 <?php include './components/navbar.html'; ?>
 
   <main class="product-container">
-    <!-- Keep your existing product content -->
     <div class="product-image">
       <?php
         // Use the watch image from database
-        $imageUrl = $watch['image'] ? "/watch_store/dashboard/assets/productImages/" . $watch['image'] : "/watch_store/dashboard/assets/productImages/placeholder.jpg";
+        $imageUrl =  $watch['image'] ? "/watch_store/dashboard/assets/productImages/" . $watch['image'] :  "/watch_store/dashboard/assets/productImages/placeholder.jpg";
       ?>
-      <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="<?php echo htmlspecialchars($watch['name'])?>" />
+      <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Timex Waterbury Traditional Chronograph" />
     <style>
       .product-image {
         background-image: url("<?php echo htmlspecialchars($imageUrl); ?>");
@@ -127,9 +118,12 @@ $watch = $stmt->fetch();
     </div>
 
     <div class="product-details">
+      
+
       <br>
       <br>
       <br>
+
       <div class="product-status">Brand : <?php echo " " . htmlspecialchars($watch['brand'])?></div>
 
       <h1 class="product-title"><?php echo htmlspecialchars($watch['name'])?></h1>
@@ -175,9 +169,10 @@ $watch = $stmt->fetch();
   />
 </div>
       </div>
+
       <div class="product-actions">
         <button class="wishlist-btn">
-          <i class="<?php echo $inWishlist ? 'fas' : 'far'; ?> fa-heart"></i>
+          <i class="far fa-heart"></i>
         </button>
         <button class="add-to-bag-btn"  name="add_to_cart">
           Add to Bag
@@ -195,7 +190,6 @@ $watch = $stmt->fetch();
   <?php include './components/footer.html'; ?>
 
   <script src="../assets/js/navbar.js"></script>
-  <!-- Add the new JavaScript file for add to cart and wishlist functionality -->
-  <script src="../assets/js/product.js"></script>
+
 </body>
 </html>
