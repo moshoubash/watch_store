@@ -17,16 +17,16 @@ $query = "SELECT p.*, ws.strap_type, ws.water_resistant, ws.material, ws.type, w
           FROM products p 
           LEFT JOIN watch_specs ws ON p.id = ws.product_id";
 
-    if ($categories !== 'all') {
-        $query .= " WHERE p.category_name = :categories";
-    }
+if ($categories !== 'all') {
+    $query .= " WHERE p.category_name = :categories";
+}
 
-    $stmt = $conn->prepare($query);
-    if ($categories !== 'all') {
-        $stmt->bindParam(':categories', $categories);
-    }
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->prepare($query);
+if ($categories !== 'all') {
+    $stmt->bindParam(':categories', $categories);
+}
+$stmt->execute();
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     session_start();
@@ -40,6 +40,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $user_id = $_SESSION['user_id'];
     $quantity = 1;
     
+    // تحقق من وجود المستخدم في جدول users
+    $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
+    $userCheckStmt = $conn->prepare($userCheckQuery);
+    $userCheckStmt->bindParam(':user_id', $user_id);
+    $userCheckStmt->execute();
+    
+    if ($userCheckStmt->rowCount() == 0) {
+        // إذا لم يكن المستخدم موجودًا، أعد توجيهه إلى صفحة التسجيل/تسجيل الدخول
+        header("Location: /watch_store/public/views/signup_login.php");
+        exit();
+    }
+    
+    // Check if user exists in the database first
+    $userCheckQuery = "SELECT id FROM users WHERE id = :user_id";
+    $userCheckStmt = $conn->prepare($userCheckQuery);
+    $userCheckStmt->bindParam(':user_id', $user_id);
+    $userCheckStmt->execute();
+    
+    if ($userCheckStmt->rowCount() == 0) {
+        // User doesn't exist in database - session is invalid
+        session_unset();
+        session_destroy();
+        header("Location: /watch_store/public/views/signup_login.php?error=invalid_session");
+        exit();
+    }
+    
+    // Now proceed with cart operations
     $cartQuery = "SELECT id FROM cart WHERE user_id = :user_id";
     $cartStmt = $conn->prepare($cartQuery);
     $cartStmt->bindParam(':user_id', $user_id);
@@ -49,11 +76,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         $cart = $cartStmt->fetch(PDO::FETCH_ASSOC);
         $cart_id = $cart['id'];
     } else {
-        $createCartQuery = "INSERT INTO cart (user_id, created_at) VALUES (:user_id, NOW())";
-        $createCartStmt = $conn->prepare($createCartQuery);
-        $createCartStmt->bindParam(':user_id', $user_id);
-        $createCartStmt->execute();
-        $cart_id = $conn->lastInsertId();
+        try {
+            $createCartQuery = "INSERT INTO cart (user_id, created_at) VALUES (:user_id, NOW())";
+            $createCartStmt = $conn->prepare($createCartQuery);
+            $createCartStmt->bindParam(':user_id', $user_id);
+            $createCartStmt->execute();
+            $cart_id = $conn->lastInsertId();
+        } catch (PDOException $e) {
+            // Log error and redirect with meaningful message
+            error_log("Cart creation error: " . $e->getMessage());
+            header("Location: " . $_SERVER['PHP_SELF'] . "?error=cart_creation");
+            exit();
+        }
     }
     
     $checkQuery = "SELECT * FROM cart_items WHERE cart_id = :cart_id AND product_id = :product_id";
@@ -105,8 +139,8 @@ $brands = $brandStmt->fetchAll(PDO::FETCH_COLUMN);
         <aside class="sidebar">
             <h3>Filters</h3>
             <label for="priceRange">Price Range</label>
-            <input id="priceRange" type="range" min="50" max="5000" value="2500">
-            <span id="priceValue">$2500</span>
+            <input id="priceRange" type="range" min="50" max="15000" value="7500">
+            <span id="priceValue">$7500</span>
             <h4>Brand</h4>
             <select id="filter-brand">
                 <option value="all">All Brands</option>

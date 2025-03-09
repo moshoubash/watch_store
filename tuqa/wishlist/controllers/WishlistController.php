@@ -8,18 +8,26 @@ class WishlistController {
     public function __construct($conn) {
         $this->wishlistModel = new Wishlist($conn);
     }
-
+    
     public function addProductToWishlist($user_id, $product_id) {
         if ($this->wishlistModel->addToWishlist($user_id, $product_id)) {
-            echo "Product added to your wishlist!";
+            return true;
         } else {
-            echo "Failed to add product to wishlist.";
+            return false;
         }
     }
 
     public function showWishlist($user_id) {
         $wishlistItems = $this->wishlistModel->getWishlist($user_id);
         return $wishlistItems;  
+    }
+    
+    public function removeFromWishlist($user_id, $product_id) {
+        if ($this->wishlistModel->removeFromWishlist($user_id, $product_id)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 ?>
