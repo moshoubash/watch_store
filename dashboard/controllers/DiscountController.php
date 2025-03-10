@@ -31,6 +31,9 @@
                     "start_date" => $_POST["start_date"],
                     "end_date" => $_POST["end_date"],
                     "limit" => $_POST["limit"],
+                    "discount_amount" => $_POST["discount_amount"],
+                    "limit_uses" => $_POST["limit_uses"],
+                    "coupon_code" => $_POST["coupon_code"]
                 ];
                 $this->discountModel->createDiscount($data);
                 header("Location: index.php?controller=discount&action=index");
@@ -55,6 +58,9 @@
                     "start_date" => $_POST["start_date"],
                     "end_date" => $_POST["end_date"],
                     "limit" => $_POST["limit"],
+                    "discount_amount" => $_POST["discount_amount"],
+                    "limit_uses" => $_POST["limit_uses"],
+                    "coupon_code" => $_POST["coupon_code"]
                 ];
                 $this->discountModel->updateDiscount($data);
                 header("Location: index.php?controller=discount&action=index");

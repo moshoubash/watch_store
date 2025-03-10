@@ -26,8 +26,8 @@
         }
 
         public function createDiscount($data) {
-            $query = "INSERT INTO " . $this->table . " (name, `limit`, discount_percentage, start_date, end_date) 
-                    VALUES (:name, :limit, :discount_percentage, :start_date, :end_date)";
+            $query = "INSERT INTO " . $this->table . " (name, `limit`, discount_percentage, start_date, end_date, discount_amount, limit_uses, coupon_code) 
+                    VALUES (:name, :limit, :discount_percentage, :start_date, :end_date, :discount_amount, :limit_uses, :coupon_code)";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);
         }
@@ -35,7 +35,8 @@
         public function updateDiscount($data) {
             $query = "UPDATE " . $this->table . " 
                     SET name = :name, `limit` = :limit, discount_percentage = :discount_percentage, 
-                        start_date = :start_date, end_date = :end_date
+                        start_date = :start_date, end_date = :end_date, discount_amount = :discount_amount, 
+                        limit_uses = :limit_uses, coupon_code = :coupon_code
                     WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             return $stmt->execute($data);
@@ -49,7 +50,8 @@
         }
 
         public function searchDiscounts($keyword) {
-            $query = "SELECT * FROM " . $this->table . " WHERE name LIKE :keyword";
+            $query = "SELECT * FROM " . $this->table . " WHERE name LIKE :keyword OR 
+                                                               coupon_code LIKE :keyword";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(":keyword", "%$keyword%");
             $stmt->execute();

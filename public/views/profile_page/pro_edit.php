@@ -17,6 +17,23 @@ $errorMessage = '';
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        #handle uploading the photo
+        $fileName = uniqid() . basename($_FILES["image_url"]["name"]);
+        $uploadDir = "../../assets/ProfileImages/";
+        $targetFilePath = $uploadDir . $fileName;
+ 
+        // Ensure the upload directory exists
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        // Move the uploaded file
+        if (move_uploaded_file($_FILES["image_url"]["tmp_name"], $targetFilePath)) {
+            $imageUrl = $fileName;
+        } else {
+            throw new Exception("Failed to move uploaded file.");
+        }
+        
         // Get form data
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -25,10 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $city = $_POST['city'] ?? '';
         $street = $_POST['street'] ?? '';
         $state = $_POST['state'] ?? '';
-        $imageUrl = $_POST['image_url'] ?? ''; // Get image URL from form
+        $imageUrl = $fileName ?? '';
         
         // Handle password update (only if provided)
         $passwordUpdateSQL = '';
+        $imageUpdateSQL = '';
         $params = [$name, $email, $phone, $country, $city, $street, $state];
         
         if (!empty($_POST['password']) && !empty($_POST['confirm_password'])) {
@@ -52,10 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             
         }
-        
         // Add image URL to SQL if provided
         $imageUpdateSQL = '';
-        if (!empty($imageUrl)) {
+        if (!empty($_FILES["image_url"]["name"])) {
             $imageUpdateSQL = ', image = ?';
             $params[] = $imageUrl;
         }
@@ -72,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 city = ?, 
                 street = ?, 
                 state = ? 
-                $passwordUpdateSQL 
-                $imageUpdateSQL 
+                $passwordUpdateSQL
+                $imageUpdateSQL
                 WHERE id = ?";
         
         $stmt = $pdo->prepare($sql);
@@ -103,6 +120,8 @@ try {
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -208,7 +227,7 @@ try {
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #4CAF50;
+            border: 3px solid yellow;
         }
         
         .image-input-container {
@@ -220,7 +239,7 @@ try {
     </style>
 </head>
 <body>
-    <?php require_once "../components/navbar.html" ?>
+    <?php require_once "../components/navbar.php" ?>
     <main>
         <h1 style="text-align: center;">Edit Personal Information</h1>
         
@@ -233,12 +252,13 @@ try {
         <?php endif; ?>
         
         <div class="edit-form">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="profile-image-container">
-                    <img class="profile-image" src="<?php echo htmlspecialchars(($user['image'] != "") ? $user['image'] : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'); ?>" alt="Profile Picture">
+                    <!--'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png-->
+                    <img class="profile-image" src="/watch_store/public/assets/ProfileImages/<?=$user['image']?>" alt="Profile Picture">
                     <div class="image-input-container">
-                        <label for="image_url">Profile Image URL</label>
-                        <input type="url" id="image_url" name="image_url" placeholder="Enter image URL here" value="<?php echo htmlspecialchars($user['image'] ?? ''); ?>">
+                        <label for="image_url" style="display:block;">Profile Image URL</label>
+                        <input type="file" id="image_url" name="image_url" style="text-align:center;">
                     </div>
                 </div>
                 

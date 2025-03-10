@@ -49,19 +49,19 @@ try {
 </head>
 <body>
     <!-- <div class="status-bar">Connected successfully!</div> to test if con right--> 
-    <?php require_once "../components/navbar.html" ?>
+    <?php require_once "../components/navbar.php" ?>
 
     <main>
         <div class="profile">
-        <div class="profile_img" style="background-image: url('<?php echo htmlspecialchars(($user['image'] != "") ? $user['image'] : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'); ?>');"></div>
-            <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
-            <div>
-            <div class="edit_btn"><a href="./pro_edit.php" style="text-decoration: none; color: white;">Edit Profile</a></div>
-            <div class="edit_btn"><a href="/watch_store/public" style="text-decoration: none; color: white;">Home page</a></div>
-            <div class="edit_btn"><a href="../logout.php" style="text-decoration: none; color: white;"> logout </a></div>
+        <div class="profile_img" style="background-color:white;">
+            <img src="/watch_store/public/assets/ProfileImages/<?php echo $user['image']?>" width="100%" alt="">
+        </div>
+        <div class="user_name"><h1><?php echo htmlspecialchars($user['name']); ?></h1></div>
+        <div>
+        <div class="edit_btn"><a href="./pro_edit.php" style="text-decoration: none; color: white;">Edit Profile <i class="fa-solid fa-pen-to-square " style="margin-left: .5rem;"></i></a></div>
+        <div class="edit_btn logg"><a href="../logout.php" style="text-decoration: none; color: white;">LogOut  <i class="fa-solid fa-arrow-right-from-bracket" style="margin-left: .5rem;"></i> </a></div>
         </div>
     </div>
-
         <div class="content-container">
             <div class="user_info">
                 <p><b>Email :</b> <?php echo htmlspecialchars($user['email']); ?></p>
@@ -92,29 +92,32 @@ try {
                                     $orderItemsStmt->execute([$order['id']]);
                                     $orderItems = $orderItemsStmt->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
-                                    <h3>Order <?php echo $order['id']; ?> Details:</h3>
-                                    <table class="table table-striped table-bordered">
+                                    <div class="order_header" style="display: flex; justify-content: space-between;">
+                                    <h3>Order <?php echo $order['id']; ?> Details: </h3>
+                                    <div style="display: flex; background-color: transparent; align-items: center;">
+                                        <h6 style="margin-right: 5px;">status : </h6>
+                                    <h6 class="payment_status <?php echo htmlspecialchars($order['status']); ?>"> <?php echo htmlspecialchars($order['status']); ?></h6>
+                                    </div>    
+                                </div>
+                                   
+                                    <table class="table table-striped align-items-center">
                                         <thead>
                                             <tr>
                                                 <th>Product Image</th>
                                                 <th>Product Name</th>
-                                                <th>Description</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
-                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($orderItems as $item): ?>
                                                 <tr>
-                                                    <td style="display:flex; justify-content:center;">
+                                                    <td style="display: flex; justify-content:center; align-items:center;">
                                                         <img height="auto" width="50" src="/watch_store/dashboard/assets/productImages/<?= $item['product_image'] ?>" alt="<?= $item['product_name'] ?>">
                                                     </td>
                                                     <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                                                    <td><?php echo htmlspecialchars($item['product_description']); ?></td>
                                                     <td>$<?php echo number_format($item['price'], 2); ?></td>
                                                     <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                                                    <td>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

@@ -61,37 +61,38 @@ function processOrder($pdo, $user_id, $payment_method) {
         $shipping = 4.99;
         $total = $subtotal + $tax + $shipping;
         
-        
+                
+            // الحصول على الخصومات المطبقة على المنتجات في السلة
         $discountStmt = $pdo->prepare('
-            SELECT d.* 
-            FROM discounts d
-            JOIN cart_items ci ON d.product_id = ci.product_id
-            WHERE ci.cart_id = ?
-            AND d.start_date <= NOW() 
-            AND d.end_date >= NOW()
+        SELECT d.* 
+        FROM discounts d
+        JOIN cart_items ci ON d.product_id = ci.product_id
+        WHERE ci.cart_id = ?
+        AND d.start_date <= NOW() 
+        AND d.end_date >= NOW()
         ');
         $discountStmt->execute([$cart_id]);
         $discounts = $discountStmt->fetchAll();
-        
+
         $discount_amount = 0;
         foreach ($discounts as $discount) {
-            foreach ($cartItems as $item) {
-                if ($item['product_id'] == $discount['product_id']) {
-                    $discount_amount += ($item['price'] * $item['quantity']) * ($discount['discount_percentage'] / 100);
-                }
+        foreach ($cartItems as $item) {
+            if ($item['product_id'] == $discount['product_id']) { 
+                $discount_amount += ($item['price'] * $item['quantity']) * ($discount['discount_percentage'] / 100);
             }
         }
-        
-       
-        if (isset($_SESSION['coupon_discount'])) {
-            $discount_amount += $_SESSION['coupon_discount'];
-            unset($_SESSION['coupon_discount']);
         }
-        
-       
+
+        // إضافة خصم الكوبون إذا كان موجوداً
+        if (isset($_SESSION['coupon_discount'])) {
+            $total -= $_SESSION['coupon_discount'];
+            // Clear the session variables after use
+            unset($_SESSION['coupon_discount']);
+            unset($_SESSION['coupon_code']);
+        }
+
+        // تطبيق الخصم على الإجمالي
         $total -= $discount_amount;
-        
-       
         $orderStmt = $pdo->prepare('
             INSERT INTO orders (user_id, total_price, status, created_at) 
             VALUES (?, ?, ?, NOW())

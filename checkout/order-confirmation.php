@@ -31,7 +31,7 @@ $options = [
 try {
     $pdo = new PDO($dsn, $username, $password, $options);
     
-    // التحقق من أن الطلب ينتمي للمستخدم الحالي
+  
     $orderStmt = $pdo->prepare('
         SELECT o.*, u.name, u.email 
         FROM orders o
@@ -46,7 +46,7 @@ try {
         exit;
     }
     
-    // جلب تفاصيل الطلب
+   
     $orderItemsStmt = $pdo->prepare('
         SELECT oi.*, p.name as product_name, p.image
         FROM order_items oi
@@ -76,7 +76,7 @@ try {
     </style>
 </head>
 <body>
-    <?php include '../public/views/components/navbar.html'; ?>
+    <?php include '../public/views/components/navbar.php'; ?>
     
     <div class="confirmation-container">
         <div class="success-icon">

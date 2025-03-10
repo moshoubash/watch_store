@@ -1,3 +1,4 @@
+
 <nav class="navbar">
   <ul class="nav-list">
     <li class="logo">
@@ -28,6 +29,11 @@
           >Contact Us</a
         >
       </li>
+      <li>
+        <a href="http://localhost/watch_store/public/views/wishlist/">
+          wishlist
+        </a>
+      </li>
     </div>
 
     <div class="right-items">
@@ -42,10 +48,9 @@
         <li class="dropdown">
           <i class="fas fa-user" style="margin-right: 30px;"></i></a>
           <ul class="dropdown-menu">
-            <li><a href="/watch_store/public/views/profile_page/profile.php">profile</a></li>
-            <li><a href="/watch_store/public/views/profile_page/pro_edit.php">setting</a></li>
-            <li><a href="/watch_store/public/views/logout.php">logout</a></li>
-           
+            <li><a href="/watch_store/public/views/profile_page/profile.php">Profile</a></li>
+            <li><a href="/watch_store/public/views/profile_page/pro_edit.php">Setting</a></li>
+            <li><a href="/watch_store/public/views/logout.php" style="color:red;">Logout</a></li>
           </ul>
         </li>
          
