@@ -162,21 +162,13 @@
   />
 </div>
       </div>
-
       <div class="product-actions">
-        <button class="wishlist-btn">
-          <i class="far fa-heart"></i>
-        </button>
         <button class="add-to-bag-btn"  name="add_to_cart">
-          Add to Bag
-          <i class="fas fa-arrow-right"></i>
+          Add to Cart
+          <i class="fa-solid fa-cart-plus"></i>
         </button>
       </div>
       </form>
-
-  
-
-      
     </div>
   </main>
 

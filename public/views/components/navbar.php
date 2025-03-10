@@ -29,11 +29,7 @@
           >Contact Us</a
         >
       </li>
-      <li>
-        <a href="http://localhost/watch_store/public/views/wishlist/">
-          wishlist
-        </a>
-      </li>
+      
     </div>
 
     <div class="right-items">
